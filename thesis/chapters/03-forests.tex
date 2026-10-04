@@ -1,0 +1,114 @@
+\chapter{Thuật toán nhanh trên rừng}
+\label{chap:forests}
+
+\section{Truy hồi gốc}
+
+Nếu $s,z$ không liên thông trong rừng thì đáp án bằng $0$. Ngược lại, gọi
+\[
+  P=(v_0=s,v_1,\ldots,v_\ell=z),\qquad e_i=\{v_{i-1},v_i\}
+\]
+là đường đi tĩnh duy nhất. Mọi đường đi thời gian phải sử dụng đúng dãy cạnh này. Truy hồi của Enright và cộng sự đặt $F(v_0,t)=1$ và
+\begin{equation}
+\label{eq:paper-recurrence}
+  F(v_i,t)=\sum_{\substack{t'\in L(e_i)\\t'\le t}}F(v_{i-1},t').
+\end{equation}
+Giá trị cần tìm là $F(v_\ell,r)$. Đánh giá trực tiếp mọi cặp $(t,t')$ cho cận xấu nhất $\bigO(|P|r^2)$. Cài đặt \code{forest-paper} cố ý giữ nguyên vòng lặp này để làm baseline trung thành với bài báo.
+
+\section{Quy hoạch động tổng tiền tố}
+
+Quan sát rằng tập số hạng trong \cref{eq:paper-recurrence} tại $t$ chỉ khác tại $t-1$ bởi nhãn đúng bằng $t$. Do đó
+\begin{equation}
+\label{eq:prefix-recurrence}
+  F_i(t)=F_i(t-1)+\mathbf{1}[t\in L(e_i)]F_{i-1}(t).
+\end{equation}
+
+\begin{algorithm}[htbp]
+\caption{\code{forest-dense}: tổng tiền tố dày}
+\label{alg:forest-dense}
+\begin{algorithmic}[1]
+\State $\textit{prev}[t]\gets1$ với mọi $t\in[r]$
+\For{$i=1,\ldots,\ell$}
+  \State $\textit{cur}[0]\gets0$
+  \For{$t=1,\ldots,r$}
+    \State $\textit{cur}[t]\gets\textit{cur}[t-1]$
+    \If{$t\in L(e_i)$}
+      \State $\textit{cur}[t]\gets\textit{cur}[t]+\textit{prev}[t]$
+    \EndIf
+  \EndFor
+  \State $\textit{swap}(\textit{prev},\textit{cur})$
+\EndFor
+\State \Return $\textit{prev}[r]$
+\end{algorithmic}
+\end{algorithm}
+
+\begin{theorem}[Cải tiến dày trên rừng]
+Sau nén hạng, số đường đi thời gian trên đường đi tĩnh duy nhất $P$ tính được trong $\bigO(|P|r)$ phép toán số học và $\bigO(r)$ bộ nhớ làm việc.
+\end{theorem}
+
+\begin{proof}
+Phương trình \cref{eq:prefix-recurrence} chính là hiệu giữa hai tổng lồng nhau liên tiếp trong \cref{eq:paper-recurrence}; do đó thuật toán tính cùng giá trị. Mỗi cạnh thực hiện một vòng $r$ bước và chỉ giữ hai hàng DP.
+\end{proof}
+
+\section{Quy hoạch động thưa}
+
+Khi $r$ lớn nhưng mỗi cạnh chỉ hoạt động ở vài thời điểm, duyệt toàn bộ miền $[r]$ là lãng phí. Định nghĩa
+\[
+  C_i(t)=\#\{\text{tiền tố thời gian đến }v_i\text{ dùng cạnh cuối đúng tại }t\},
+  \quad t\in L(e_i).
+\]
+Với cạnh đầu tiên, $C_1(t)=1$. Với $i>1$,
+\begin{equation}
+\label{eq:sparse-recurrence}
+  C_i(t)=\sum_{\substack{\tau\in L(e_{i-1})\\\tau\le t}}C_{i-1}(\tau).
+\end{equation}
+Hai danh sách nhãn đã sắp xếp cho phép duyệt bằng một con trỏ và một tổng đang chạy.
+
+\begin{algorithm}[htbp]
+\caption{Một bước chuyển thưa giữa hai cạnh liên tiếp}
+\label{alg:forest-sparse}
+\begin{algorithmic}[1]
+\State $j\gets0$, $S\gets0$
+\ForAll{$t\in L(e_i)$ theo thứ tự tăng}
+  \While{$j<|L(e_{i-1})|$ và $L(e_{i-1})[j]\le t$}
+    \State $S\gets S+C_{i-1}[j]$; $j\gets j+1$
+  \EndWhile
+  \State $C_i[t]\gets S$
+\EndFor
+\end{algorithmic}
+\end{algorithm}
+
+\begin{theorem}[Cải tiến thưa trên rừng]
+Với danh sách nhãn đã sắp xếp, đáp án tính được trong
+\[
+  \bigO\!\left(|P|+\sum_{e\in P}|L(e)|\right)
+\]
+phép toán số học, ngoài chi phí sắp xếp hoặc nén hạng.
+\end{theorem}
+
+\begin{proof}
+Trong mỗi bước, con trỏ qua danh sách trước chỉ tăng và mỗi phần tử của danh sách hiện tại được xử lý một lần. Cộng chi phí trên các cặp cạnh liên tiếp cho cận đã nêu. Tổng các $C_\ell(t)$ là đáp án vì các tập nghiệm phân hoạch theo thời điểm của cạnh cuối.
+\end{proof}
+
+\section{Oracle khép kín}
+
+Nếu mọi cạnh của đường đi dài $\ell$ hoạt động ở mọi hạng $1,\ldots,r$, mỗi nghiệm tương ứng một dãy không giảm độ dài $\ell$. Theo lập luận stars-and-bars,
+\begin{equation}
+\label{eq:path-closed-form}
+  \#\mathrm{TP}(P_\ell)=\binom{r+\ell-1}{\ell}.
+\end{equation}
+Đây là oracle quan trọng vì cho phép kiểm tra số nguyên lớn mà không dựa vào một cài đặt DP khác. Các kiểm thử bắt buộc còn gồm một cạnh có hai nhãn, ví dụ thủ công cho đáp án $4$, trường hợp thứ tự giảm cho đáp án $0$, và hai nhãn bằng nhau phải được chấp nhận.
+
+\section{Ý nghĩa thuật toán}
+
+Cải tiến không thay đổi không gian nghiệm hay giả thiết cấu trúc; nó chỉ đánh giá lại cùng truy hồi theo cách tránh tính lặp tổng tiền tố. Phiên bản dày thích hợp khi hầu hết cạnh hoạt động ở hầu hết thời điểm và có locality bộ nhớ tốt. Phiên bản thưa thích hợp khi mật độ nhãn nhỏ: phần đếm phụ thuộc kích thước temporal input thật sự trên đường đi chứ không phụ thuộc tích $|P|r$. Tìm đường và kiểm tra cấu trúc là chi phí tiền xử lý riêng; cài đặt dùng map nên tra danh sách nhãn còn có chi phí lookup. Kết quả thực nghiệm ở \cref{chap:experiments} xác nhận baseline tăng nhanh hơn theo $r$.
+
+\section{Biến thể thời gian tăng nghiêm ngặt}
+
+Truy hồi cumulative cho strict là
+\[
+ F_i(t)=\sum_{\substack{\tau\in L(e_i)\\\tau\le t}}F_{i-1}(\tau-1),
+ \qquad F_0(t)=1\quad(t\ge0).
+\]
+Tại một nhãn hiện tại $t$, chỉ cộng các nhãn trước nhỏ hơn $t$. Dense-prefix thay chỉ số trước từ $t$ sang $t-1$; sparse scan thay điều kiện con trỏ từ $\le$ sang $<$. Các chứng minh đúng và cận số học giữ nguyên vì vẫn xử lý mỗi nhãn tối đa một lần trong mỗi bước.
+
+Oracle all-times trở thành $\binom{r}{\ell}$, bằng $0$ nếu $\ell>r$. Hai cạnh có nhãn bằng nhau phải bị từ chối, còn một cạnh có hai nhãn vẫn có hai nghiệm. Nén hạng bảo toàn cả bất đẳng thức chặt, nên raw timestamp âm hoặc rất lớn không làm thay đổi kết quả.

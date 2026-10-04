@@ -1,0 +1,19 @@
+\begin{table}[htbp]{Đóng góp của từng tối ưu trên ba partial 2-tree ($n=24$, $r=8$).}
+\label{tab:ablation}
+\centering\small
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.16}
+\begin{tabular}{p{6cm}rrr}
+\toprule
+Cấu hình & Thời gian (ms) & Trạng thái tạo & \shortstack{Trạng thái\\sống cực đại} \\
+\midrule
+DP nội bộ cũ & \num{32.4} & 18\,785 & 18\,785 \\
+DP đầy đủ & \num{5.46} & 6\,801 & 854 \\
+Không xóa nhãn đầu cuối & \num{11.8} & 11\,324 & 2\,197 \\
+Không cắt tỉa và xóa nhãn & \num{24.9} & 18\,785 & 4\,957 \\
+Không lọc cặp ghép & \num{6.49} & 6\,801 & 854 \\
+Giữ mọi bảng con & \num{5.73} & 6\,801 & 6\,801 \\
+\bottomrule
+\end{tabular}
+\par\vspace{3pt}\begin{minipage}{0.97\linewidth}\footnotesize Thời gian là trung bình nhân của ba trung vị; hai cột cuối là trung vị theo trường hợp. Số trạng thái sống là số trạng thái đồng thời đang được giữ, không phải số đỉnh đồ thị.\end{minipage}
+\end{table}

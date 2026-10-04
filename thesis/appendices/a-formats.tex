@@ -1,0 +1,45 @@
+\chapter{Định dạng dữ liệu và decomposition}
+
+\section{Temporal graph}
+
+Ví dụ:
+\begin{lstlisting}[numbers=none]
+p 3 4 0 2
+0 1 1
+0 1 2
+1 2 2
+1 2 3
+\end{lstlisting}
+Header lần lượt là số đỉnh, số dòng temporal edge, nguồn và đích. Đỉnh đánh số từ $0$. Cài đặt nhận timestamp là số nguyên có dấu 64 bit, kể cả âm, rồi nén hạng khi đọc. Không dùng độ lớn timestamp làm kích thước mảng.
+
+\section{TTSP expression}
+
+File SP dùng node ID và root:
+\begin{lstlisting}[numbers=none]
+sp 7 6
+0 edge 0 1
+1 edge 1 3
+2 series 0 1
+3 edge 0 2
+4 edge 2 3
+5 series 3 4
+6 parallel 2 5
+\end{lstlisting}
+Node phải tạo thành DAG biểu thức thực tế là cây; cực có thứ tự của hai con series phải gặp nhau và hai con parallel phải có cùng cực.
+
+\section{Nice tree decomposition}
+
+Header có số node, root và width của decomposition đầu vào trước chuẩn hóa. Các dạng dòng:
+\begin{lstlisting}[numbers=none]
+ntd NODE_COUNT ROOT WIDTH
+ID leaf BAG_SIZE BAG...
+ID introduce-v CHILD V BAG_SIZE BAG...
+ID introduce-e CHILD U V BAG_SIZE BAG...
+ID forget-v CHILD V BAG_SIZE BAG...
+ID join LEFT RIGHT BAG_SIZE BAG...
+\end{lstlisting}
+Cài đặt yêu cầu $s,z$ trong mọi bag và root đúng bằng $\{s,z\}$. Mỗi static edge phải xuất hiện trong đúng một node \code{introduce-e}.
+
+\section{Schema kết quả}
+
+CSV mới chứa family, instance ID, seed, replicate, solver/ablation, status, $n$, số cạnh tĩnh/thời gian, $r$ thật và nominal, cận trên width phân rã, terminal, strict flag, đáp án, bit length, solver wall/CPU time, parse/subprocess time, batch repeats, RSS, số trạng thái và join pairs. Hash input, decomposition, đáp án, source và binary nhận dạng artifact; compiler, flags, machine và controller/generator hash được lưu trong metadata JSON đi kèm. Không phụ thuộc vào một Git commit chưa tồn tại để xác định bản source. Trường width không phải khẳng định width tối tiểu sau khi xóa cạnh.

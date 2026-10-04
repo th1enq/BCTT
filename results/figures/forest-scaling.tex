@@ -1,0 +1,46 @@
+\documentclass[tikz,border=4pt]{standalone}
+\usepackage{fontspec}
+\setmainfont{DejaVu Serif}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\begin{document}
+\begin{tikzpicture}
+\begin{axis}[width=14cm,height=8cm,grid=both,minor grid style={gray!12},
+xlabel={Distinct ranks r (path length 1000)},ylabel={Solver time (ms)},
+legend pos=north west,legend style={font=\small},
+xmode=log,ymode=log,]
+\addplot+[color=blue!75!black,mark=*,thick,error bars/.cd,y dir=both,y explicit] table[x=x,y=y,y error minus=minus,y error plus=plus] {
+x y minus plus
+10 0.375232 0.0027125 0.0054235
+20 1.23416 0.005005 0.000825
+50 8.41029 0.152035 0.177155
+100 39.2487 0.15015 0.0533
+200 210.808 4.3275 3.923
+500 1963.65 7.515 15.285
+};
+\addlegendentry{Paper recurrence}
+\addplot+[color=orange!85!black,mark=square*,thick,error bars/.cd,y dir=both,y explicit] table[x=x,y=y,y error minus=minus,y error plus=plus] {
+x y minus plus
+10 0.181235 0.0051895 0.00269
+20 0.304959 0.002932 0.0262005
+50 0.793664 0.015625 0.047997
+100 1.85865 0.046525 0.155785
+200 5.8484 0.48121 0.647575
+500 20.7333 0.3274 1.88635
+1000 54.3836 0.7445 1.5167
+};
+\addlegendentry{Dense prefix}
+\addplot+[color=green!50!black,mark=triangle*,thick,error bars/.cd,y dir=both,y explicit] table[x=x,y=y,y error minus=minus,y error plus=plus] {
+x y minus plus
+10 0.515892 0.0032805 0.001099
+20 0.920546 0.008271 0.033913
+50 3.25031 0.04871 0.099005
+100 6.46164 0.08623 0.072885
+200 14.4706 0.2228 0.11295
+500 42.8111 0.24925 2.7535
+1000 101.149 0.377 5.442
+};
+\addlegendentry{Sparse scan}
+\end{axis}
+\end{tikzpicture}
+\end{document}

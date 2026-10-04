@@ -1,0 +1,40 @@
+\documentclass[tikz,border=4pt]{standalone}
+\usepackage{fontspec}
+\setmainfont{DejaVu Serif}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\begin{document}
+\begin{tikzpicture}
+\begin{axis}[width=14cm,height=8cm,grid=both,minor grid style={gray!12},
+xlabel={Diamonds k (r=32)},ylabel={Solver time (ms)},
+legend pos=north west,legend style={font=\small},
+xmode=log,ymode=log,log basis x=2,]
+\addplot+[color=blue!75!black,mark=*,thick,error bars/.cd,y dir=both,y explicit] table[x=x,y=y,y error minus=minus,y error plus=plus] {
+x y minus plus
+1 0.73645 0.0009595 0.010743
+2 1.77902 0.01756 0.019895
+4 3.90408 0.08736 0.174865
+8 8.40392 0.09422 0.15997
+16 18.5378 0.92835 0.564
+32 38.7694 0.28225 1.52985
+64 78.9837 0.51135 2.76755
+128 171.524 1.826 2.439
+256 364.585 3.754 3.2725
+};
+\addlegendentry{Transfer matrix}
+\addplot+[color=orange!85!black,mark=square*,thick,error bars/.cd,y dir=both,y explicit] table[x=x,y=y,y error minus=minus,y error plus=plus] {
+x y minus plus
+1 0.0248505 0.00017145 0.00064125
+2 0.0472871 0.0011414 0.0003717
+4 0.0951578 0.0023299 0.00024345
+8 0.196943 0.0014435 0.0024845
+16 0.3931 0.003188 0.004384
+32 0.745083 0.008182 0.003272
+64 1.60436 0.003395 0.05771
+128 3.41352 0.009685 0.121255
+256 7.52694 0.1345 0.30541
+};
+\addlegendentry{Sparse events}
+\end{axis}
+\end{tikzpicture}
+\end{document}

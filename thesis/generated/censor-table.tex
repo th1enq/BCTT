@@ -1,0 +1,31 @@
+\begin{table}[htbp]
+\centering
+\small
+\setlength{\tabcolsep}{4pt}
+\caption{Mọi solver/cell không hoàn thành; không bị loại khỏi báo cáo.}
+\label{tab:censored}
+\begin{tabular}{llll}
+\toprule
+Họ & Instance & Solver & Trạng thái \\
+\midrule
+forest\_dense & L500-r1000 & forest-paper & timeout \\
+forest\_dense & L1000-r1000 & forest-paper & timeout \\
+forest\_sparse & L1000-r1000-d1000 & forest-paper & timeout \\
+forest\_density\_control & L1000-r1000-d1000 & forest-paper & timeout \\
+ttsp\_extra & k64-r128-strict0 & ttsp-transfer & timeout \\
+ttsp\_sparse & k64-r1000-d4 & ttsp-transfer & skipped\_budget \\
+ttsp\_sparse & k256-r10000-d4 & ttsp-transfer & skipped\_budget \\
+ttsp\_sparse & k1024-r10000-d4 & ttsp-transfer & skipped\_budget \\
+width & w4-n12-r8 & tw-dp-baseline & timeout \\
+ladder & c24-r2 & brute & timeout \\
+ladder & c24-r4 & brute & timeout \\
+ladder & c24-r8 & brute & timeout \\
+ladder & c32-r2 & brute & timeout \\
+ladder & c32-r4 & brute & timeout \\
+ladder & c32-r8 & brute & timeout \\
+ladder & c64-r2 & brute & timeout \\
+ladder & c64-r4 & brute & timeout \\
+ladder & c64-r8 & brute & timeout \\
+\bottomrule
+\end{tabular}
+\end{table}

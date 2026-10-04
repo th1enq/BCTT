@@ -1,0 +1,17 @@
+\begin{table}[htbp]{Tăng tốc trên các trường hợp ghép cặp hoàn thành.}
+\label{tab:speedups}
+\centering\small
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.16}
+\begin{tabular}{p{2.4cm}p{3.1cm}p{2.6cm}rr}
+\toprule
+Họ đồ thị & Đối chứng & Đề xuất & $K$ & GM \\
+\midrule
+Rừng dày & Truy hồi bài gốc & Tổng tiền tố & 47 & \num{16.1} \\
+TTSP dày & Ma trận nội bộ & Quét sự kiện & 45 & \num{5.24} \\
+Partial 2-tree & DP nội bộ cũ & DP tối giản & 24 & \num{3.8} \\
+Cactus & DP tổng quát & Quét theo block & 8 & \num{78.9} \\
+\bottomrule
+\end{tabular}
+\par\vspace{3pt}\begin{minipage}{0.97\linewidth}\footnotesize GM là trung bình nhân của tỷ số thời gian đối chứng/đề xuất; $K$ là số trường hợp ghép cặp. Chỉ đối chứng ở hàng rừng tái hiện truy hồi của bài báo gốc; các hàng còn lại là đối chứng của dự án.\end{minipage}
+\end{table}

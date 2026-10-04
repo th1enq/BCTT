@@ -1,0 +1,210 @@
+\chapter{Quy hoạch động theo treewidth}
+\label{chap:treewidth}
+
+\section{Ý tưởng cục bộ hóa điều kiện thời gian}
+
+Khó khăn của đường đi thời gian dường như là điều kiện toàn cục trên cả dãy nhãn. Tuy nhiên, sau khi định hướng đường đi được chọn từ $s$ tới $z$, điều kiện này là cục bộ tại từng đỉnh trong.
+
+\begin{lemma}[Bổ đề thời gian cục bộ]
+Gọi $t_{\mathrm{in}}(v)$ và $t_{\mathrm{out}}(v)$ là nhãn của cạnh vào và cạnh ra tại mỗi đỉnh trong $v$ của một đường đi đã định hướng. Đường đi là đường đi thời gian khi và chỉ khi
+\[
+  t_{\mathrm{in}}(v)\le t_{\mathrm{out}}(v)
+\]
+với mọi đỉnh trong $v$.
+\end{lemma}
+
+\begin{proof}
+Nếu dãy nhãn không giảm thì mọi cặp liên tiếp thỏa bất đẳng thức. Ngược lại, nối chuỗi các bất đẳng thức tại các đỉnh liên tiếp cho $t_1\le t_2\le\cdots\le t_\ell$.
+\end{proof}
+
+Nhờ bổ đề, DP không cần giữ toàn bộ dãy nhãn của một thành phần. Nó chỉ giữ nhãn của một cạnh duy nhất tại đầu mút đang thiếu cạnh còn lại. Khi cả cạnh vào và ra đã biết, so sánh được thực hiện và hai nhãn có thể quên.
+
+\section{Chuẩn hóa phân rã}
+
+Cho phân rã cây độ rộng $w$. Thêm $s,z$ vào mọi bag, tăng độ rộng nhiều nhất $2$, rồi chuyển về nice tree decomposition gồm leaf, introduce-vertex, introduce-edge, forget-vertex và join. Mỗi cạnh tĩnh được introduce đúng một lần. Khi đó kích thước bag
+\[
+  b\le w+3.
+\]
+Việc giữ hai terminal trong mọi bag đơn giản hóa điều kiện gốc và bảo đảm thành phần nghiệm cuối cùng không biến mất khỏi separator.
+
+\section{Bất biến nghiệm bộ phận}
+
+Tại nút $x$, gọi $E_x$ là các cạnh đã introduce trong cây con của $x$. Một realization bộ phận chọn một tập con $E_x$, một hướng và một hạng hoạt động cho mỗi cạnh đã chọn. DP duy trì năm bất biến:
+
+\begin{enumerate}[label=\textbf{I\arabic*.}]
+  \item Bậc vào và bậc ra của mỗi đỉnh không quá một.
+  \item Đồ thị tĩnh được chọn là rừng.
+  \item Khi cả hai cạnh đường đi tại một đỉnh đã biết, bất đẳng thức thời gian cục bộ đã được kiểm tra.
+  \item Mọi đỉnh được dùng nhưng đã forget có đúng một cạnh vào và một cạnh ra.
+  \item Mọi thành phần được chọn vẫn giao với bag hiện tại; không thành phần nào biến mất sau separator.
+\end{enumerate}
+
+\section{Không gian trạng thái}
+
+Với mỗi đỉnh bag $v$, lưu một trong các trạng thái
+\[
+  \textsc{Zero},\quad \textsc{In}(t),\quad \textsc{Out}(t),\quad \textsc{Both}.
+\]
+\textsc{In}$(t)$ nghĩa là đã có đúng một cạnh vào tại $t$; \textsc{Out} tương tự. \textsc{Both} nghĩa là đã có một cạnh vào và một cạnh ra, đồng thời kiểm tra thời gian đã thành công. Không cần nhớ nhãn sau khi đạt \textsc{Both}, vì không cạnh mới nào còn được phép kề với đỉnh.
+
+Ngoài chữ ký cục bộ $\sigma$, trạng thái lưu phân hoạch $\Pi$ của các đỉnh active (không phải \textsc{Zero}). Hai đỉnh thuộc cùng block khi chúng nằm trong cùng một thành phần của rừng bộ phận. Trạng thái đầy đủ là $(\sigma,\Pi)$ và giá trị bảng là số realization chính xác.
+
+\section{Các chuyển trạng thái đơn}
+
+\subsection{Leaf và introduce-vertex}
+
+Ở leaf, mọi đỉnh bag có trạng thái \textsc{Zero}, phân hoạch rỗng và count $1$. Đỉnh vừa introduce cũng bắt đầu ở \textsc{Zero}.
+
+\subsection{Introduce-edge}
+
+Với cạnh $uv$, DP có lựa chọn bỏ qua, hoặc chọn $u\to v$ hay $v\to u$ tại mỗi $t\in L(uv)$. Thêm cạnh ra tại $t$ cập nhật
+\[
+\begin{array}{rcl}
+\textsc{Zero}&\to&\textsc{Out}(t),\\
+\textsc{In}(a)&\to&\textsc{Both}\quad\text{nếu }a\le t,
+\end{array}
+\]
+và các trường hợp khác không hợp lệ. Thêm cạnh vào cập nhật đối xứng:
+\[
+\begin{array}{rcl}
+\textsc{Zero}&\to&\textsc{In}(t),\\
+\textsc{Out}(a)&\to&\textsc{Both}\quad\text{nếu }t\le a.
+\end{array}
+\]
+Nếu hai đầu đã active và cùng block, chọn cạnh sẽ tạo chu trình nên bị loại; nếu không, các block được hợp nhất hoặc tạo mới.
+
+\subsection{Forget-vertex}
+
+Chỉ nonterminal được forget. \textsc{Zero} và \textsc{Both} được chấp nhận; \textsc{In} hoặc \textsc{Out} bị loại vì đỉnh sẽ không còn cơ hội nhận cạnh thiếu. Nếu đỉnh là đại diện bag cuối cùng của block thì trạng thái cũng bị loại, bảo toàn bất biến I5.
+
+\section{Nút join và bổ đề incidence}
+
+Hai con của join có cùng bag và hai tập cạnh đã introduce rời nhau. Chữ ký cục bộ được ghép theo bảng:
+\[
+\begin{array}{c|c}
+\text{Cặp} & \text{Kết quả}\\
+\hline
+\textsc{Zero}+X & X\\
+\textsc{In}(a)+\textsc{Out}(b) & \textsc{Both}\text{ nếu }a\le b\\
+\textsc{Out}(b)+\textsc{In}(a) & \textsc{Both}\text{ nếu }a\le b\\
+\textsc{In}+\textsc{In},\ \textsc{Out}+\textsc{Out} & \text{không hợp lệ}\\
+\textsc{Both}+\text{nonzero} & \text{không hợp lệ.}
+\end{array}
+\]
+
+Phần tinh tế là phát hiện chu trình khi hợp hai rừng con. Xây dựng incidence multigraph hai phía $J$: mỗi thành phần của rừng con trái chạm bag là một nút trái, mỗi thành phần con phải là một nút phải; mỗi đỉnh bag active ở cả hai con tạo một cạnh incidence nối hai thành phần chứa nó.
+
+\begin{lemma}[Kiểm tra chu trình tại join]
+Hợp $F_1\cup F_2$ là rừng khi và chỉ khi incidence multigraph $J$ không có chu trình. Hai cạnh incidence song song được tính là chu trình độ dài hai.
+\end{lemma}
+
+\begin{proof}
+Đặt $q=|V(F_1)\cap V(F_2)|$, chỉ tính các đỉnh active. Hai cây con chỉ có thể chung đỉnh trong bag và không chung cạnh. Gọi $c_i$ là số thành phần của $F_i$. Incidence graph có $c_1+c_2$ đỉnh và $q$ cạnh, kể cả các nút thành phần không có cạnh incidence.
+
+Một thành phần của $F_1\cup F_2$ tương ứng đúng một thành phần của $J$, vì các cây con được nối với nhau chính xác qua các đỉnh active chung. Do đó $c(F_1\cup F_2)=c(J)$. Vì $F_i$ là rừng, $|E(F_i)|=|V(F_i)|-c_i$. Suy ra hạng chu trình
+\[
+\begin{aligned}
+\beta(F_1\cup F_2)
+&=|E(F_1)|+|E(F_2)|-(|V(F_1)|+|V(F_2)|-q)+c(J)\\
+&=q-(c_1+c_2)+c(J)=\beta(J).
+\end{aligned}
+\]
+Một multigraph là rừng khi và chỉ khi hạng chu trình bằng $0$. Đẳng thức cũng bao phủ hai cạnh incidence song song, có hạng chu trình $1$. Không dùng lập luận ``closed walk suy ra cycle'', vốn không đúng nếu walk quay lui trên cùng một cạnh.
+\end{proof}
+
+Cài đặt dùng union--find nhỏ trên các block trái/phải. Khi thêm một cạnh incidence mà hai đầu đã liên thông, trạng thái bị loại ngay. Nếu hợp lệ, phân hoạch cha là bao đóng bắc cầu của hai quan hệ liên thông con, và count cha tăng bởi tích hai count.
+
+\section{Điều kiện chấp nhận}
+
+Ở gốc, mọi nonterminal đã được forget. Chấp nhận đúng các trạng thái
+\[
+  s=\textsc{Out}(a),\qquad z=\textsc{In}(b),\qquad \Pi=\{\{s,z\}\}.
+\]
+Tổng trên mọi $a,b$ là đáp án.
+
+\section{Chứng minh đúng}
+
+\begin{theorem}[Tính đúng của DP treewidth]
+DP đếm mỗi đường đi thời gian không nghiêm ngặt từ $s$ tới $z$ đúng một lần và không đếm đối tượng nào khác.
+\end{theorem}
+
+\begin{proof}[Soundness]
+Mọi realization được chấp nhận là acyclic; các đỉnh trong được dùng có bậc vào và ra bằng một; $s,z$ có bậc một; và chỉ tồn tại một thành phần chứa $s,z$. Bất biến không biến mất loại mọi thành phần ẩn. Vì vậy đồ thị được chọn chính xác là một đường đi tĩnh đơn. Điều kiện bậc/hướng buộc hướng từ $s$ tới $z$. Mọi đỉnh trong đã vượt qua so sánh nhãn cục bộ; theo bổ đề thời gian cục bộ, toàn bộ dãy nhãn không giảm.
+\end{proof}
+
+\begin{proof}[Completeness và không đếm trùng]
+Lấy một đường đi thời gian bất kỳ. Tại nút introduce duy nhất của mỗi cạnh trên đường, chọn đúng cạnh, hướng từ $s$ tới $z$ và nhãn của nghiệm; bỏ qua mọi cạnh khác. Tính đơn bảo đảm kiểm tra bậc và chu trình không thất bại; tính thời gian bảo đảm mọi so sánh thành công. Tính liên thông của các bag chứa một đỉnh trong phân rã cây bảo đảm cả hai cạnh của đỉnh đã được xử lý trước khi nó bị forget. Do mỗi cạnh được introduce đúng một lần, đường đi xác định duy nhất toàn bộ dãy lựa chọn, nên không đếm trùng.
+\end{proof}
+
+\section{Độ phức tạp}
+
+Mỗi đỉnh bag có $2r+2$ trạng thái cục bộ. Số phân hoạch của tối đa $b$ phần tử là số Bell $B_b$, với $B_b\le b^b=2^{\bigO(b\log b)}$. Do đó
+\[
+  S_b\le(2r+2)^bB_b.
+\]
+Cài đặt join đơn giản thử mọi cặp trạng thái, cho cận an toàn
+\[
+  \bigO\!\left(N(2r+2)^{2(w+3)}B_{w+3}^2\operatorname{poly}(w)\right)
+  =Nr^{\bigO(w)}2^{\bigO(w\log w)}.
+\]
+Nếu $L$ là tổng kích thước input, kể cả danh sách cạnh thời gian và phân rã, thì $r\le |\cE|\le L$ và $N\le L$, nên đây là $L^{\bigO(w)}$. Không đồng nhất số nút phân rã $N$ với số cạnh thời gian.
+
+\begin{corollary}[XP theo treewidth]
+\TP{} thuộc XP khi tham số là treewidth của đồ thị nền và một phân rã độ rộng $w$ được cung cấp.
+\end{corollary}
+
+\begin{corollary}[Series--parallel]
+\TP{} giải được trong thời gian đa thức trên đồ thị series--parallel/partial $2$-tree, kể cả khi $s,z$ là hai đỉnh tùy ý.
+\end{corollary}
+
+\begin{proof}
+Các đồ thị này có treewidth không quá $2$. Thay $w=2$ vào cận XP cho một đa thức theo kích thước đầu vào.
+\end{proof}
+
+Hệ quả cuối là câu trả lời đề xuất cho giả thuyết series--parallel của Enright và cộng sự. Cận thô chứa lũy thừa cao theo $r$ và không được quảng bá như một thuật toán SP tối ưu; khi truy vấn trùng hai cực TTSP, thuật toán ở \cref{chap:ttsp} thực tế hơn.
+
+\section{Xóa nhãn tại terminal: giảm hai bậc theo hạng}
+
+\begin{lemma}[Trạng thái terminal tối giản]
+\label{lem:terminal-compaction}
+Có thể cấm mọi cạnh vào $s$ và mọi cạnh ra $z$ ngay khi introduce-edge. Khi đó $s$ chỉ có hai trạng thái \textsc{Zero}/\textsc{Out*}, $z$ chỉ có \textsc{Zero}/\textsc{In*}; nhãn cạnh tại terminal không cần nằm trong trạng thái.
+\end{lemma}
+
+\begin{proof}
+Trong mọi nghiệm cuối, $s$ có đúng một cạnh ra và không có cạnh vào; $z$ đối xứng. Bậc chỉ tăng khi thêm cạnh, nên một vi phạm terminal không thể được sửa về sau. Loại sớm là an toàn.
+
+Điều kiện thời gian chỉ được kiểm tra tại đỉnh trong. Nhãn của cạnh $s\to v$ vẫn được giữ ở $v$ khi $v$ chưa hoàn tất; nhãn tại bản thân $s$ không tham gia bất kỳ so sánh nào. Trường hợp cạnh trực tiếp $s\to z$ không có điều kiện thời gian cục bộ. Tương tự với $z$. Mọi transition tương lai vì vậy chỉ cần biết terminal đã dùng cạnh hay chưa. Hợp các trạng thái khác nhau ở nhãn terminal bằng cách cộng count bảo toàn chính xác số realization.
+\end{proof}
+
+Hai terminal thuộc mọi bag, nên chỉ còn nhiều nhất $w+1$ đỉnh cần chữ ký có nhãn. Với $b\le w+3$,
+\[
+ S_b^{\mathrm{compact}}\le4(2r+2)^{b-2}B_b
+ \le4(2r+2)^{w+1}B_{w+3}.
+\]
+Đây là cải tiến cận trạng thái, không chỉ thay đổi hằng số của cài đặt.
+
+\begin{theorem}[Cận treewidth sau compact terminal]
+\label{thm:compact-tw}
+Với $r\ge1,w\ge1$, DP tối giản đếm đúng cả strict và non-strict paths trong
+\[
+ \bigO\!\left(N(2r+2)^{2(w+1)}B_{w+3}^{2}\operatorname{poly}(w)\right)
+ =N(r+1)^{2w+2}2^{\bigO(w\log w)}
+\]
+phép toán số học. Đặc biệt, với $w=2$ thu được cận $\bigO(N(r+1)^6)$.
+\end{theorem}
+
+\begin{proof}
+Tính đúng theo \cref{lem:terminal-compaction} và chứng minh DP trước đó. Introduce-edge tốn nhiều nhất $\bigO(rS_b\operatorname{poly}(b))$; join tốn $\bigO(S_b^2\operatorname{poly}(b))$. Với cận $S_b$ nêu trên, hạng join chi phối cận an toàn. Các bag nhỏ hơn chỉ giảm không gian trạng thái. Đồ thị không có cạnh hoặc không có đường giữa terminal trả đáp án $0$ và không gây trường hợp suy biến của công thức.
+\end{proof}
+
+\section{Chỉ mục join và thời gian sống của bảng}
+
+Bucket trạng thái con phải theo chữ ký bậc bỏ nhãn: \textsc{Zero}, \textsc{In}, \textsc{Out}, \textsc{Both}. Với một trạng thái trái, chỉ duyệt bucket tương thích: \textsc{Zero} ghép mọi loại; \textsc{In} ghép \textsc{Zero}/\textsc{Out}; \textsc{Out} ghép \textsc{Zero}/\textsc{In}; \textsc{Both} chỉ ghép \textsc{Zero}. Sau bộ lọc này vẫn kiểm tra nhãn và incidence graph đầy đủ. Cận xấu nhất của join không đổi, nhưng nhiều cặp bị loại trước khi tạo trạng thái và union--find.
+
+Sau khi tính bảng cha, giải phóng các bảng con vì mỗi nút chỉ có một cha. Bộ nhớ của bản cũ bị chặn bởi $NS_b$ ô trạng thái; bản giải phóng phụ thuộc vào frontier đánh giá, với cận an toàn $\bigO(hS_b)$ theo chiều cao cây $h$. Không tuyên bố mọi decomposition chỉ cần một bảng. Telemetry đo riêng peak số trạng thái đang sống và peak RSS của cả tiến trình.
+
+\section{Biến thể strict và chi phí bit}
+
+Thay tất cả kiểm tra thời gian tại đỉnh trong từ $\le$ sang $<$; các bất biến liên thông và bậc không đổi. Chuỗi bất đẳng thức chặt cục bộ tương đương với $t_1<\cdots<t_\ell$, nên các chứng minh soundness/completeness giữ nguyên. Điều này giải hai biến thể trên các lớp cấu trúc đang xét; không suy ra các kết quả hardness hoặc approximation khác của paper cho strict.
+
+Gọi $B$ là độ dài bit lớn nhất của \emph{mọi số trung gian}, không chỉ đáp án. Một cận an toàn là $B=\bigO(m\log(1+2r))$, vì realization chọn tối đa $1+2r$ khả năng trên mỗi cạnh. Với kiểu số nguyên nhân dài, cộng/copy tốn $\bigO(B)$ và nhân tốn $\bigO(B^2)$. Vì thế cận bit an toàn cho DP compact là cận số học nhân thêm $\bigO(B^2)$. TTSP sự kiện không nhân số đếm nên lõi chạy trong $\bigO((n+m+M+r)B)$ bit-operation theo mô hình này. Cả hai đều đa thức khi $w$ cố định; số đếm vượt 64 bit không được coi là phép toán miễn phí.

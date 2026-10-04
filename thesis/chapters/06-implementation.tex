@@ -1,0 +1,101 @@
+\chapter{Thiết kế và cài đặt hệ thống}
+\label{chap:implementation}
+
+\section{Mục tiêu kỹ thuật}
+
+Cài đặt phục vụ đồng thời ba mục tiêu: kiểm tra chứng minh, đo hiệu năng và tái lập kết quả. Vì sai lệch một dấu so sánh hoặc một phép ghép phân hoạch có thể tạo kết quả có vẻ hợp lý trên nhiều dữ liệu, ưu tiên đầu tiên là tính độc lập của oracle và khả năng dừng ngay tại phản ví dụ.
+
+Mã nguồn dùng C++20 cho solver và Python cho sinh dữ liệu, oracle độc lập, điều phối benchmark và tổng hợp. Các solver dùng chung parser và kiểu số nguyên lớn. \code{brute} chia sẻ một label-DP nhỏ với forest-sparse, nên oracle chính bổ sung là \code{brute-cartesian} và DFS cạnh thời gian viết riêng bằng Python; hai oracle này không dùng truy hồi tổng tiền tố của solver.
+
+\section{Kiến trúc repository}
+
+\begin{table}[htbp]
+\centering
+\small
+\caption{Các thành phần chính của phần mềm.}
+\label{tab:architecture}
+\begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{5.2cm}X}
+\toprule
+Thành phần & Trách nhiệm \\
+\midrule
+\nolinkurl{src/temporal_graph.*} & Parse, loại trùng, xây đồ thị nền và nén hạng \\
+\nolinkurl{src/bigint.hpp} & Số nguyên không âm độ dài tùy ý, limb 32 bit \\
+\nolinkurl{src/solvers.*} & Ba solver forest, static-path và temporal-edge reference \\
+\nolinkurl{src/dag.*} & Counting sort sự kiện, quét DAG và cactus block--cut \\
+\nolinkurl{src/ttsp.*} & Validator SP, baseline ma trận và định hướng sự kiện \\
+\nolinkurl{src/tw_dp.*} & Nice-TD validator và DP kết nối \\
+\nolinkurl{src/main.cpp} & CLI, timing, RSS và đầu ra JSON \\
+\nolinkurl{python/generators.py} & Sinh forest, TTSP, partial $k$-tree và decomposition \\
+\nolinkurl{python/research_audit.py} & Oracle Python, random/Atlas/metamorphic audits \\
+\nolinkurl{python/research_benchmark.py} & Đo lặp, pin CPU, exact oracles, timeout \\
+\nolinkurl{python/research_aggregate.py} & Sinh bảng, hình và macro LaTeX từ CSV \\
+\nolinkurl{tests/} & Unit test thủ công và fixture decomposition \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\section{Biểu diễn đồ thị và nén hạng}
+
+Định dạng canonical có header
+\begin{lstlisting}[numbers=none]
+p n m_temporal s z
+u v t
+...
+\end{lstlisting}
+Cạnh vô hướng được chuẩn hóa với đầu mút nhỏ đứng trước. Parser từ chối self-loop và chỉ số đỉnh ngoài miền, kiểm tra số dòng theo header, loại các triple trùng và nén toàn bộ timestamp phân biệt về $1,\ldots,r$. Danh sách nhãn của mỗi cạnh tăng dần theo construction.
+
+\section{Số nguyên chính xác}
+
+Đáp án có thể vượt 64 bit ngay trên diamond-chain vừa phải. Repository cung cấp kiểu số nguyên không âm tự chứa, lưu little-endian theo cơ số $2^{32}$. Nó hỗ trợ cộng, nhân dài, nhân/chia số nhỏ chính xác, xuất thập phân và tính bit length. Việc không phụ thuộc Boost làm bản build tái lập trên môi trường tối giản; đồng thời unit test và sanitizer được dùng để giảm rủi ro của thành phần số học tự cài đặt.
+
+\section{Mã hóa trạng thái treewidth}
+
+Trạng thái cục bộ được mã hóa bằng số nguyên:
+\[
+0=\textsc{Zero},\quad 1..r=\textsc{In}(t),\quad r+1..2r=\textsc{Out}(t),\quad 2r+1=\textsc{Both}.
+\]
+Phân hoạch được canonical hóa dưới dạng restricted-growth-like labels: duyệt theo thứ tự bag và đổi block đầu tiên thành $0$, block mới tiếp theo thành $1$, v.v. Nhờ đó, hai union--find tạo cùng phân hoạch có cùng hash key. Bảng chỉ lưu trạng thái reachable trong \code{unordered\_map}; không cấp phát toàn bộ không gian lý thuyết.
+
+Nice-TD parser kiểm tra cây có gốc, running intersection, giới hạn bag chuẩn hóa, hai terminal trong mọi bag, root đúng bằng $\{s,z\}$, introduce/forget đúng tập đỉnh và mỗi cạnh tĩnh được introduce đúng một lần. Với compact terminal, mã $r+1$ tại $s$ và $1$ tại $z$ là placeholder của \textsc{Out*}/\textsc{In*}, không phải timestamp cần so sánh; điều này chỉ bật khi cấm cạnh vào $s$/ra $z$.
+
+SP validator kiểm tra ordered poles, một lá duy nhất trên mỗi cạnh tĩnh, toàn bộ cạnh được bao phủ, không có nút dùng chung hay không reachable, và giao nội bộ của hai thành phần đúng điều kiện series/parallel. Đánh giá SP và Tarjan cactus dùng stack tường minh để tránh phụ thuộc độ sâu biểu thức đệ quy.
+
+\section{CLI và telemetry}
+
+Một executable duy nhất cung cấp các lệnh như:
+\begin{lstlisting}[language=bash,numbers=none]
+tpcount count --solver forest-paper instance.tg
+tpcount count --solver forest-dense instance.tg
+tpcount count --solver forest-sparse instance.tg
+tpcount count --solver ttsp-transfer instance.tg --decomp instance.sp
+tpcount count --solver ttsp-events instance.tg --decomp instance.sp
+tpcount count --solver cactus instance.tg
+tpcount count --solver tw-dp instance.tg --td instance.ntd
+tpcount count --solver tw-dp instance.tg --td instance.ntd --strict --repeat 20
+tpcount verify --solver tw-dp instance.tg --td instance.ntd
+\end{lstlisting}
+Đầu ra JSON chứa đáp án, bit length, wall time và CPU time của \emph{chính tiến trình solver}, parse time, peak RSS, đầu cuối, số lần batch, tổng/peak trạng thái, peak live states và số cặp join có thể/đã thử. CPU time không lấy từ \code{time.process\_time()} của Python điều phối. Trên Linux, RSS lấy \code{VmHWM} của \code{/proc/self/status} sau exec để tránh peak kế thừa từ Python parent trong \code{ru\_maxrss}. RSS là peak của toàn bộ tiến trình C++ gồm graph parse và các batch, không phải riêng vùng timed solver. CSV lưu thêm hash đáp án, input, decomposition, source và binary để nhận dạng phiên bản. Batch timing đọc TG một lần nhưng xây trạng thái solver mới ở từng lần lặp; đọc/validate decomposition vẫn nằm trong timed region.
+
+\section{Phương pháp tham chiếu độc lập}
+
+\code{brute} dùng DFS liệt kê mọi đường đi tĩnh đơn từ $s$ tới $z$. Trên mỗi đường, một label-DP nhỏ đếm chuỗi không giảm. Cấu trúc này độc lập với decomposition DP và transfer algebra, nên phù hợp để phát hiện lỗi ở hai solver chính. Các oracle đóng \cref{eq:path-closed-form,eq:diamond-closed-form} tạo lớp kiểm tra thứ ba không dựa vào enumeration.
+
+\code{brute-cartesian} và oracle Python liệt kê trực tiếp mọi cạnh thời gian kế tiếp, với bitmap đỉnh đã dùng và nhãn cuối. Chúng không gọi label-DP. Python dùng số nguyên chính xác tích hợp, nên đối chiếu kiểm tra thêm kiểu BigInt C++. Với TTSP thưa lớn không thể liệt kê tuyến, oracle Python tác động vector thưa trên cây biểu thức SP, khác thứ tự topo và event bucketing của cài đặt C++.
+
+\section{Nhận dạng width hai và sinh phân rã}
+
+Script \code{python/decompose.py} loại lần lượt một đỉnh bậc không quá hai và thêm cạnh fill giữa hai hàng xóm. Với bậc hai, phép loại/fill có thể nhìn như contraction của một cạnh nên giữ điều kiện treewidth không quá hai. Nếu graph có width hai, mỗi graph còn lại luôn có đỉnh bậc không quá hai; nếu bị kẹt, graph không thuộc lớp. Bag là đỉnh bị loại cộng hàng xóm còn lại; nối bag với bag của hàng xóm bị loại sớm nhất về sau. Các component rời được nối bằng cạnh cây có giao rỗng, rồi thêm $s,z$ và nice hóa. Bộ nhận dạng này chỉ dùng cho width không quá hai, không được quảng bá như heuristic tối ưu cho mọi width.
+
+\section{Sinh dữ liệu và seed}
+
+Master seed là $20260928$. Seed của mỗi instance là số nguyên 64 bit từ tám byte đầu của
+\[
+\operatorname{SHA256}(\texttt{"20260928:family:grid\_cell:replicate"}).
+\]
+Cách lập lịch này tránh thay đổi ngầm do thêm bớt một cell trước đó. Bộ sinh hỗ trợ: tất cả nhãn; đúng $q$ nhãn chọn đều không hoàn lại; và Bernoulli mật độ $p$. Với Bernoulli, nếu một cạnh không nhận nhãn, hệ thống ép một hạng ngẫu nhiên đều để bảo toàn topology tĩnh.
+
+Partial $k$-tree được sinh cùng phân rã đã biết. Nhờ vậy, thời gian tìm decomposition không lẫn vào solver timing. Trường \code{treewidth} trong CSV là cận trên width của phân rã cung cấp trước khi thêm terminal, không mặc nhiên là treewidth tối tiểu sau khi xóa cạnh. Riêng grid độ nhạy width giữ clique ban đầu và không xóa cạnh, nên có lower bound clique bằng cận trên $k$, xác nhận width chính xác. Graph Atlas width hai được nhận dạng bằng elimination riêng.
+
+\section{Quy trình thất bại}
+
+Nếu có mismatch, benchmark dừng ngay, lưu graph, nhãn, $(s,z)$, decomposition, seed và output của các solver. Bước tiếp theo là delta-debug bằng cách loại đỉnh/cạnh/nhãn và giảm $r$ cho đến phản ví dụ tối tiểu. Không chạy hiệu năng tiếp khi còn sai lệch chưa giải thích. Đây là release gate quan trọng hơn mọi tối ưu.

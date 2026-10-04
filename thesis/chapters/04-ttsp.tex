@@ -1,0 +1,178 @@
+\chapter{Từ ma trận truyền đến đếm sự kiện thưa}
+\label{chap:ttsp}
+
+\section{Tại sao không thể liệt kê đường đi tĩnh}
+
+Một diamond gồm hai nhánh dài hai giữa cùng hai cực. Chuỗi $k$ diamond có $2^k$ đường đi tĩnh giữa hai cực dù kích thước đồ thị chỉ tuyến tính theo $k$. Một thuật toán liệt kê từng đường đi rồi đếm nhãn sẽ có thời gian hàm mũ ngay cả khi $r$ nhỏ. Phân rã TTSP cung cấp cách nén các lựa chọn tuyến bằng hai phép hợp thành đại số.
+
+\section{Ma trận truyền thời gian}
+
+Với thành phần TTSP $H$ có hai cực có thứ tự $(x,y)$, định nghĩa ma trận $r\times r$
+\begin{equation}
+\label{eq:transfer-definition}
+  M_H[a,b]=\#\left\{
+  \begin{array}{l}
+  \text{đường đi thời gian }x\text{--}y\text{ nằm trong }H,\\
+  \text{nhãn đầu tiên}\ge a,\ \text{nhãn cuối cùng}=b
+  \end{array}\right\}.
+\end{equation}
+Chỉ số $a$ được hiểu như một điều kiện ngưỡng từ thành phần đứng trước; chỉ số $b$ giữ đủ thông tin để nối sang thành phần tiếp theo.
+
+Với một cạnh $e=xy$,
+\begin{equation}
+\label{eq:edge-transfer}
+  M_e[a,b]=
+  \begin{cases}
+  1,& b\in L(e)\text{ và }a\le b,\\
+  0,& \text{ngược lại.}
+  \end{cases}
+\end{equation}
+
+\section{Ghép song song}
+
+Giả sử $H=H_1\parallel H_2$. Hai nhánh chỉ chung hai cực. Một đường đi đơn từ cực trái sang cực phải không thể đi vào một nhánh rồi chuyển sang nhánh kia mà không lặp một cực. Do đó, tập nghiệm là hợp rời của tập nghiệm trong hai nhánh:
+\begin{equation}
+\label{eq:parallel-transfer}
+  M_H=M_{H_1}+M_{H_2}.
+\end{equation}
+
+\section{Ghép nối tiếp}
+
+Giả sử $H=H_1\circ H_2$, trong đó cực phải của $H_1$ và cực trái của $H_2$ được đồng nhất thành $q$. Mỗi đường đi đơn qua $H$ phân rã duy nhất thành một đường trong $H_1$ và một đường trong $H_2$. Nếu phần đầu kết thúc tại hạng $k$, phần sau phải có nhãn đầu tiên ít nhất $k$. Chính điều kiện này đã được mã hóa bởi hàng $k$ trong ma trận thứ hai:
+\begin{equation}
+\label{eq:series-transfer}
+  M_H[a,b]=\sum_{k=1}^r M_{H_1}[a,k]M_{H_2}[k,b].
+\end{equation}
+Vì vậy,
+\[
+  M_H=M_{H_1}M_{H_2}.
+\]
+
+\begin{theorem}[Thuật toán truyền TTSP]
+Cho một phân rã TTSP có hai cực gốc là $(s,z)$. Số đường đi thời gian không nghiêm ngặt từ $s$ đến $z$ tính được chính xác trong $\bigO(mr^3)$ phép toán số học và $\bigO(mr^2)$ bộ nhớ với cách lưu trực tiếp mọi ma trận nút.
+\end{theorem}
+
+\begin{proof}
+Quy nạp theo cây phân rã. Trường hợp lá đúng theo \cref{eq:edge-transfer}. Với nút parallel, mọi đường đi nằm trọn trong đúng một nhánh, nên \cref{eq:parallel-transfer} vừa đầy đủ vừa không đếm trùng. Với nút series, phép tách tại cực chung là duy nhất và tổng trong \cref{eq:series-transfer} liệt kê đúng mọi hạng kết thúc trung gian khả thi. Ở gốc, không có ngưỡng trước đó nên đáp án là
+\[
+  \sum_{b=1}^r M_G[1,b].
+\]
+Cây phân rã có $\bigO(m)$ nút; nhân ma trận thông thường tốn $\bigO(r^3)$ mỗi nút series.
+\end{proof}
+
+Trong mã, ma trận có thêm hàng/cột ảo $0$ để biểu diễn ``chưa chọn cạnh''. Với non-strict, hàng $0$ và hàng $1$ có cùng giá trị tại mọi cột dương, nên trả tổng hàng $0$ tương đương công thức trên. Với strict, thay điều kiện nhãn đầu $\ge a$ bằng $>a$; hàng $0$ cho phép mọi nhãn đầu dương, còn hàng $k$ buộc nhãn kế tiếp lớn hơn nhãn cuối $k$. Nhân ma trận vẫn cộng trên chỉ số trung gian $k=1,\ldots,r$, không dùng nhãn thời gian ảo làm cạnh thật. Kích thước $(r+1)^2$ không đổi bậc độ phức tạp.
+
+\section{Ví dụ diamond}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[vertex/.style={circle,draw,minimum size=7mm},>=Stealth]
+  \node[vertex] (s) at (0,0) {$s$};
+  \node[vertex] (u) at (2,1) {$u$};
+  \node[vertex] (v) at (2,-1) {$v$};
+  \node[vertex] (z) at (4,0) {$z$};
+  \draw (s)--(u)--(z);
+  \draw (s)--(v)--(z);
+  \node at (2,-1.8) {$H=(su\circ uz)\parallel(sv\circ vz)$};
+\end{tikzpicture}
+\caption{Một diamond là phép ghép song song của hai nhánh nối tiếp.}
+\label{fig:diamond}
+\end{figure}
+
+Chuỗi $k$ diamond có $2^k$ đường đi tĩnh, mỗi đường dài $2k$. Nếu mọi cạnh hoạt động ở mọi hạng, kết hợp lựa chọn tuyến với \cref{eq:path-closed-form} cho oracle
+\begin{equation}
+\label{eq:diamond-closed-form}
+  \#\mathrm{TP}=2^k\binom{r+2k-1}{2k}.
+\end{equation}
+Oracle này kiểm tra được các trường hợp có số tuyến tĩnh quá lớn để brute force nhưng vẫn có đáp án đóng.
+
+\section{Giới hạn của thuật toán chuyên biệt}
+
+Ma trận truyền sử dụng hướng có thứ tự từ cực trái sang cực phải. Cài đặt yêu cầu cây phân rã nhất quán và hai cực gốc đúng bằng truy vấn $(s,z)$. Nếu truy vấn là hai đỉnh nội bộ tùy ý, phân rã TTSP ban đầu không trực tiếp cung cấp cùng phép hợp thành. Đây là lý do cần thuật toán treewidth ở \cref{chap:treewidth}. Hai thuật toán bổ sung nhau: transfer DP có số mũ theo $r$ nhỏ hơn và hiệu quả trên đúng miền cực--cực; treewidth DP tổng quát hơn nhưng trạng thái lớn hơn.
+
+\section{Định hướng chuẩn và sự dư thừa của toàn bộ ma trận}
+
+Ma trận là một biểu diễn đúng nhưng tính nhiều thông tin hơn truy vấn cần: nó trả lời đồng thời mọi ngưỡng đầu và mọi nhãn cuối. Một truy vấn tại gốc chỉ cần tác động của toán tử truyền lên một điều kiện đầu duy nhất. Quan sát cấu trúc sau cho phép bỏ toàn bộ phép nhân ma trận.
+
+\begin{lemma}[Định hướng cực--cực]
+\label{lem:ttsp-orientation}
+Định hướng mỗi cạnh lá từ cực trái sang cực phải của phân rã TTSP hợp lệ. Đồ thị có hướng thu được là DAG. Mọi đường đi đơn vô hướng giữa hai cực gốc là một đường đi có hướng trong DAG này và ngược lại.
+\end{lemma}
+
+\begin{proof}
+Quy nạp theo cây biểu thức. Cạnh đơn có tính chất hiển nhiên. Ghép nối tiếp hai DAG chỉ chung một cực không tạo chu trình; mọi đường cực--cực đi qua cực chung đúng một lần và tách duy nhất thành hai đường con. Ghép song song chỉ chung hai cực, mỗi DAG con có cực trái là nguồn và cực phải là đích. Chu trình không thể chuyển nhánh mà quay về cực trái hoặc rời cực phải. Một đường đi đơn cực--cực chỉ chọn một nhánh, vì chuyển nhánh đòi hỏi lặp một cực. Quy nạp hoàn tất cả tính acyclic lẫn song ánh đường đi.
+\end{proof}
+
+\section{Thuật toán quét sự kiện theo đỉnh}
+
+Gọi $M=|\cE|$. Với mỗi cạnh thời gian có hướng $e=(u,v,t)$, lưu $D[e]$, số prefix từ $s$ kết thúc bằng đúng cạnh thời gian đó. Tại đỉnh $v$, sắp các sự kiện theo thời điểm: sự kiện vào đọc $D[e]$, sự kiện ra ghi $D[e]$. Duyệt các đỉnh theo thứ tự topo, duy trì một tổng tiền tố $A$:
+\begin{itemize}
+  \item khởi tạo $A=1$ nếu $v=s$, và $A=0$ nếu không;
+  \item sự kiện vào $e$: cập nhật $A\gets A+D[e]$;
+  \item sự kiện ra $e$: gán $D[e]\gets A$;
+  \item tại $z$, tổng sau khi đọc hết sự kiện vào là đáp án.
+\end{itemize}
+Với thời gian không giảm, mọi sự kiện vào tại $t$ phải đứng trước mọi sự kiện ra tại $t$ của cùng đỉnh. Với thời gian tăng nghiêm ngặt, thứ tự hai nhóm được đảo. Hai sự kiện vào bằng thời điểm vẫn là hai lựa chọn cạnh cuối khác nhau, nên phải cộng cả hai trước khi ghi sự kiện ra.
+
+\begin{algorithm}[htbp]
+\caption{Đếm sự kiện thời gian trên DAG}
+\label{alg:dag-events}
+\begin{algorithmic}[1]
+\Require DAG định hướng hợp lệ, danh sách sự kiện đã sắp, nguồn $s$, đích $z$
+\State $D[e]\gets0$ với mọi cạnh thời gian $e$
+\For{$v$ theo thứ tự topo}
+  \State $A\gets\mathbf{1}[v=s]$
+  \For{$e$ trong danh sách sự kiện của $v$}
+    \If{$e$ là sự kiện vào}
+      \State $A\gets A+D[e]$
+    \Else
+      \State $D[e]\gets A$
+    \EndIf
+  \EndFor
+  \If{$v=z$} \State $\mathit{answer}\gets A$ \EndIf
+\EndFor
+\State \Return $\mathit{answer}$
+\end{algorithmic}
+\end{algorithm}
+
+\begin{theorem}[TTSP theo kích thước nhãn thực sự]
+\label{thm:ttsp-events}
+Sau nén hạng và khi được cho định hướng từ một phân rã TTSP hợp lệ có cực $(s,z)$, số đường đi thời gian được tính trong $\bigO(n+m+M+r)$ thao tác, gồm đúng $M$ phép cộng số đếm và không có phép nhân số đếm. Bộ nhớ chứa $\bigO(n+m+M+r)$ ô, trong đó $M$ ô số nguyên lớn. Kết quả đúng cho cả non-strict và strict.
+\end{theorem}
+
+\begin{proof}
+Tại một đỉnh đã đến lượt topo, mọi cạnh thời gian vào đã được xử lý ở đỉnh nguồn của nó. Bất biến của $A$ là số prefix có thời điểm cuối thỏa ngưỡng của sự kiện hiện tại. Mỗi đường đi tới một cạnh ra phân rã duy nhất thành prefix và cạnh đó, nên gán $D[e]=A$ vừa đầy đủ vừa không đếm trùng. DAG bảo đảm mọi đường đi có hướng là đơn. Kết hợp \cref{lem:ttsp-orientation} cho song ánh với đường đi vô hướng cần đếm.
+
+Có $2M$ sự kiện. Counting sort trên các hạng $1,\ldots,r$ tạo thứ tự sự kiện trong $\bigO(M+r)$; phân phối theo đỉnh giữ nguyên thứ tự thời gian và thứ tự nhóm bằng thời điểm. Topological sort tốn $\bigO(n+m)$. Mỗi cạnh thời gian được ghi một lần và cộng một lần. Hai cách sắp nhóm bằng thời điểm lần lượt hiện thực $\le$ và $<$.
+\end{proof}
+
+Cận trên là cho lõi đếm sau tiền xử lý. Parser hiện tại dùng cấu trúc có thứ tự và sort, nên đọc/nén input tốn $\bigO(M\log M)$. Validator biểu thức kiểm tra từng cạnh lá xuất hiện đúng một lần và hai thành phần chỉ giao tại cực được phép. Small-to-large merging bằng hash set cho chi phí kỳ vọng $\bigO(m\log m)$; chi phí này nằm trong thời gian solver được đo. Không gộp các khoản tiền xử lý vào một tuyên bố ``toàn chương trình tuyến tính''.
+
+\section{Mở rộng sang cactus với đầu cuối tùy ý}
+
+Đồ thị cactus là đồ thị mà mỗi cạnh thuộc nhiều nhất một chu trình đơn; các block hai-liên-thông là cạnh hoặc chu trình. Cây block--cut có một đường duy nhất nối $s$ và $z$ nếu chúng liên thông. Một đường đi đơn không thể đi vào block ngoài đường này rồi quay lại, vì phải lặp đỉnh khớp.
+
+Trong block cạnh, hướng cạnh từ đầu vào đến đầu ra. Trong block chu trình, hướng cả hai cung đơn từ đầu vào đến đầu ra. Nối các block trên route tạo một DAG tương đương với tập đường đi đơn của truy vấn. Điều này cho phép dùng nguyên lõi quét sự kiện, trong khi không cần yêu cầu $s,z$ là hai cực của một phân rã có sẵn.
+
+\begin{theorem}[Cactus, truy vấn tùy ý]
+\label{thm:cactus}
+Trên cactus vô hướng, cả strict và non-strict temporal paths giữa hai đỉnh tùy ý đếm được với $\bigO(n+m+M+r)$ thao tác sau nén hạng. Nếu chỉ $M_P$ cạnh thời gian nằm trên route block--cut thì phần quét dùng $M_P$ phép cộng.
+\end{theorem}
+
+\begin{proof}
+Phân rã block bằng Tarjan mất $\bigO(n+m)$. Tính đơn buộc mọi nghiệm đi qua đúng route block--cut, và trong mỗi chu trình chọn đúng một trong hai cung đơn. Các block kế tiếp chỉ chung một đỉnh khớp nên ghép các lựa chọn tạo đường đi đơn, không đếm trùng. Định hướng của route là acyclic và bảo toàn tập nghiệm. Áp dụng \cref{thm:ttsp-events} cho phần quét.
+\end{proof}
+
+\section{Giới hạn cần giữ khi áp dụng định hướng}
+
+Một DAG theo cực cũ không giải được truy vấn nội bộ tùy ý. Ví dụ hai đỉnh giữa của diamond có hai đường đi vô hướng, nhưng không có đường đi giữa chúng trong hướng từ cực trái tới cực phải.
+
+Giới hạn mạnh hơn xuất hiện ở Wheatstone graph, gồm các cạnh $su$, $sv$, $uz$, $vz$ và $uv$. Hai nghiệm $s-u-v-z$ và $s-v-u-z$ yêu cầu hai hướng trái ngược của $uv$. Không thể có một định hướng duy nhất giữ cả hai. Đồ thị này vẫn có treewidth $2$. Vì vậy, thuật toán sự kiện có cận tốt hơn trên đúng miền TTSP cực--cực và cactus đã định hướng theo truy vấn; DP treewidth ở chương sau vẫn cần thiết cho series--parallel tổng quát với đầu cuối tùy ý.
+
+\section{Oracle cho biến thể strict}
+
+Trên chuỗi $k$ diamond với mọi cạnh hoạt động ở mọi hạng,
+\[
+  \#\mathrm{StrictTP}=2^k\binom{r}{2k},
+\]
+với quy ước $\binom{r}{2k}=0$ khi $2k>r$. Mỗi tuyến có $2k$ cạnh và một dãy tăng nghiêm ngặt tương ứng duy nhất với một tập con $2k$ thời điểm. Công thức này cùng \cref{eq:diamond-closed-form} được tính bằng số nguyên Python để kiểm tra mọi cell benchmark all-times.

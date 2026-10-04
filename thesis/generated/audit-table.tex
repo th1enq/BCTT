@@ -1,0 +1,24 @@
+\begin{table}[htbp]
+\centering
+\small
+\setlength{\tabcolsep}{4pt}
+\caption{Kiểm chứng mới; mỗi cặp đầu cuối được thử theo cả hai ngữ nghĩa thời gian.}
+\label{tab:audit-expanded}
+\begin{tabular}{lrrr}
+\toprule
+Chiến dịch & \shortstack{Truy vấn/\\ngữ nghĩa} & \shortstack{Đối chiếu\\solver} & Sai lệch \\
+\midrule
+Vét cạn $n=2,r=2$ & 16 & 64 & 0 \\
+Vét cạn $n=3,r=2$ & 768 & 3\,072 & 0 \\
+Vét cạn $n=4,r=2$ & 98\,304 & 340\,728 & 0 \\
+Vét cạn $n=5,r=1$ & 40\,960 & 147\,800 & 0 \\
+Rừng ngẫu nhiên & 2\,000 & 10\,000 & 0 \\
+TTSP ngẫu nhiên & 2\,000 & 6\,000 & 0 \\
+Partial $k$-tree, $k=1..4$ & 2\,000 & 6\,000 & 0 \\
+Cactus ngẫu nhiên & 2\,000 & 4\,000 & 0 \\
+Đổi đỉnh và nhãn thời gian & 400 & 800 & 0 \\
+Graph Atlas, width $\le2$ & 111\,408 & 222\,816 & 0 \\
+\textbf{Tổng lượt} & 259\,856 & 741\,280 & 0 \\
+\bottomrule
+\end{tabular}
+\end{table}

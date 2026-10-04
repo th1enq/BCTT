@@ -1,0 +1,44 @@
+\documentclass[tikz,border=4pt]{standalone}
+\usepackage{fontspec}
+\setmainfont{DejaVu Serif}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\begin{document}
+\begin{tikzpicture}
+\begin{axis}[width=14cm,height=8cm,grid=both,minor grid style={gray!12},
+xlabel={Columns c (ladder width 2, r=4)},ylabel={Solver time (ms)},
+legend pos=north west,legend style={font=\small},
+xmode=log,ymode=log,log basis x=2,]
+\addplot+[color=blue!75!black,mark=*,thick,error bars/.cd,y dir=both,y explicit] table[x=x,y=y,y error minus=minus,y error plus=plus] {
+x y minus plus
+4 0.007365 0.00015956 0.000303315
+8 0.249585 0.0031555 0.0130385
+12 6.25349 0.23738 0.091395
+16 138.471 0.418 0.4485
+};
+\addlegendentry{Enumeration}
+\addplot+[color=orange!85!black,mark=square*,thick,error bars/.cd,y dir=both,y explicit] table[x=x,y=y,y error minus=minus,y error plus=plus] {
+x y minus plus
+4 1.30486 0.00139 0.01069
+8 3.73239 0.07149 0.232265
+12 5.75891 0.124245 1.626265
+16 9.07208 0.691465 0.167895
+24 14.1646 0.4997 0.4072
+32 19.3894 0.2771 1.04135
+64 40.6102 0.48875 0.5881
+};
+\addlegendentry{Original DP}
+\addplot+[color=green!50!black,mark=triangle*,thick,error bars/.cd,y dir=both,y explicit] table[x=x,y=y,y error minus=minus,y error plus=plus] {
+x y minus plus
+4 0.303158 0.000355 0.003795
+8 0.87604 0.0140305 0.04001
+12 1.46891 0.03121 0.0608
+16 2.03974 0.054405 0.019025
+24 3.15989 0.033305 0.047825
+32 4.66193 0.044135 0.047995
+64 9.37835 0.053035 0.497805
+};
+\addlegendentry{Compact DP}
+\end{axis}
+\end{tikzpicture}
+\end{document}

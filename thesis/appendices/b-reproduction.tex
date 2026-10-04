@@ -1,0 +1,56 @@
+\chapter{Hướng dẫn tái lập}
+
+\section{Build}
+
+Yêu cầu GCC/Clang hỗ trợ C++20 và Python 3.10 trở lên.
+\begin{lstlisting}[language=bash,numbers=none]
+bash scripts/build.sh
+\end{lstlisting}
+Trên máy có CMake backend:
+\begin{lstlisting}[language=bash,numbers=none]
+cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DTPCOUNT_NATIVE=ON
+cmake --build build -j
+ctest --test-dir build --output-on-failure
+\end{lstlisting}
+
+\section{Chiến dịch nghiên cứu mới}
+
+\begin{lstlisting}[language=bash,numbers=none]
+# Kiem chung vet can, Python DFS, Atlas, metamorphic
+python3 python/research_audit.py
+
+# 169 instance, warm-up + 7 measured batches
+python3 python/research_benchmark.py
+
+# 21 ladder cells, giao thuc rieng, cung binary
+python3 python/ladder_benchmark.py
+
+# Bang, hinh, macro LaTeX tu hai CSV cuoi
+python3 python/research_aggregate.py
+\end{lstlisting}
+
+Pipeline đầy đủ nằm trong \nolinkurl{scripts/research_pipeline.sh}, chạy bằng Bash. Không chạy audit, compile hoặc tải nặng đồng thời với benchmark. Script ghim một CPU trong affinity cho phép nhưng không khóa xung CPU; vì vậy không kỳ vọng tái lập chính xác từng microsecond trên máy khác. Mỗi cell thành công phải đủ bảy mẫu; timeout và giới hạn ngân sách được giữ nguyên. Các tệp metadata nhận dạng binary, source, controller, generator và cấu hình đo.
+
+\nolinkurl{results/research_benchmark.csv} và \nolinkurl{results/research_ladder.csv} là hai CSV nguồn cuối. \nolinkurl{results/research_benchmark_summary.csv} chứa median, quartile, IQR, RSS và telemetry. Bảng và macro trong \code{thesis/generated/} do script sinh, không sửa số bằng tay. Dữ liệu lịch sử, pilot và RSS trước sửa lỗi nằm ngoài aggregate cuối.
+
+Audit vét cạn là $n\le4,r=2$ và $n=5,r=1$, không phải toàn bộ $n=5,r=2$. Graph Atlas dùng bản gzip được giữ trong \code{benchmarks/data/}, với URL, giấy phép và SHA-256 trong README đi kèm. Số \AuditComparisons{} là tổng đối chiếu solver, không phải số graph khác nhau.
+
+\section{Chạy solver và nhận dạng width hai}
+
+\begin{lstlisting}[language=bash,numbers=none]
+build/tpcount count --solver ttsp-events INSTANCE.tg --decomp INSTANCE.sp
+build/tpcount count --solver cactus INSTANCE.tg
+python3 python/decompose.py INSTANCE.tg INSTANCE.ntd
+build/tpcount verify --solver tw-dp INSTANCE.tg --td INSTANCE.ntd --reference cartesian
+build/tpcount count --solver tw-dp INSTANCE.tg --td INSTANCE.ntd --strict --repeat 20
+\end{lstlisting}
+Với graph lớn, không dùng DFS tham chiếu nếu số tuyến/nhãn có thể tăng hàm mũ; dùng oracle đóng hoặc oracle biểu thức SP độc lập khi phù hợp. Định dạng decomposition được mô tả trong repository. Nice hóa bằng Python hiện dùng đệ quy, nên pipeline nhận dạng không được quảng bá là bộ tiền xử lý tuyến tính chịu được mọi độ sâu.
+
+\section{Biên dịch khóa luận}
+
+Repository cung cấp script Tectonic:
+\begin{lstlisting}[language=bash,numbers=none]
+bash thesis/build_pdf.sh
+python3 python/research_validate.py
+\end{lstlisting}
+Script tự biên dịch bảy hình vector PGFPlots trước bản thảo; cần Tectonic, font DejaVu/FreeMono, hoặc Nix có package tương ứng. Kết quả là \code{results/temporal\_path\_thesis.pdf}. Integrity validator kiểm tra đủ bảy mẫu riêng biệt, count/hash, thống kê summary, input và source/binary không đổi, audit digest, hình/PDF không cũ hơn source; kết quả ghi trong \nolinkurl{results/research_release_validation.json}. Trước khi nộp, thay các macro thông tin cá nhân ở đầu \code{thesis/main.tex}, cập nhật \code{CITATION.cff}, lưu phiên bản source rõ ràng, và chạy lại toàn bộ bảng/hình trên máy được mô tả trong khóa luận. Hoàn thành phản biện chứng minh và rà soát novelty độc lập, tuân thủ quy định công bố hỗ trợ AI của cơ sở đào tạo; không dùng benchmark để thay cho các bước này.

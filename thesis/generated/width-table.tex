@@ -1,0 +1,17 @@
+\begin{table}[htbp]
+\centering
+\small
+\setlength{\tabcolsep}{4pt}
+\caption{Độ nhạy theo width tại n=12, r=8; mỗi width dùng một seed cố định.}
+\label{tab:width-sensitivity}
+\begin{tabular}{lrrrr}
+\toprule
+$w$ & Brute ms & DP cũ ms & DP mới ms & Trạng thái mới \\
+\midrule
+1 & 0.00117 & 0.429 & 0.171 & 272 \\
+2 & 0.0312 & 17.5 & 3.07 & 4.83e+03 \\
+3 & 1.49 & 272 & 15 & 1.8e+04 \\
+4 & 12.7 & T/O & 381 & 4.32e+05 \\
+\bottomrule
+\end{tabular}
+\end{table}

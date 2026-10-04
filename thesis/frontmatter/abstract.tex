@@ -1,0 +1,27 @@
+\chapter*{Tóm tắt}
+\addcontentsline{toc}{chapter}{Tóm tắt}
+
+Khóa luận nghiên cứu đếm chính xác đường đi thời gian đơn giữa hai đỉnh trong đồ thị vô hướng, tập trung vào rừng, two-terminal series--parallel, cactus và đồ thị có treewidth bị chặn. Công trình \emph{Counting Temporal Paths} của Enright, Meeks và Molter đưa ra truy hồi $\bigO(|V|T^2)$ trên rừng, FPT theo tổ hợp treewidth và lifetime, và giả thuyết mở rộng đa thức sang series--parallel. Khóa luận phát triển các thuật toán tường minh cho khoảng trống này, phân biệt số phép toán số học với chi phí bit và tiền xử lý.
+
+Trên rừng, tổng tiền tố giảm đánh giá truy hồi xuống $\bigO(|P|r)$; bản thưa đạt $\bigO(|P|+M_P)$ phép toán sau khi có đường và nhãn đã sắp. Với TTSP có hai cực là truy vấn, khóa luận trình bày ma trận truyền $\bigO(mr^3)$ rồi thay bằng định hướng DAG và quét sự kiện. Lõi mới dùng $\bigO(n+m+M+r)$ thao tác và đúng $M$ phép cộng số đếm, không cần nhân số đếm. Phân rã block--cut mở rộng phương pháp sang cactus với terminal tùy ý.
+
+Đối với treewidth $w$, DP giữ bậc có hướng, nhãn cục bộ và phân hoạch liên thông; tính acyclic tại join được chứng minh bằng đẳng thức hạng chu trình của hợp hai rừng và incidence multigraph. Xóa nhãn terminal giảm cận trạng thái theo $r$ từ bậc $w+3$ xuống $w+1$, cho thời gian
+\[
+ N(r+1)^{2w+2}2^{\bigO(w\log w)}.
+\]
+Với $w=2$, cận an toàn là $\bigO(N(r+1)^6)$, suy ra thuật toán đa thức trên series--parallel với đầu cuối tùy ý. Đây là XP theo treewidth, không phải FPT chỉ theo treewidth. Cả strict và non-strict được chứng minh và kiểm thử riêng trên các lớp này.
+
+Hiện thực C++20 dùng số nguyên chính xác độ dài tùy ý. Chiến dịch mới có \AuditComparisons{} đối chiếu không sai lệch, gồm vét cạn $n\le4,r=2$, $n=5,r=1$, \AtlasGraphs{} Graph Atlas width không quá hai, dữ liệu random width 1--4 và metamorphic tests. Benchmark có \BenchCases{} cấu hình, bảy lần đo cho mỗi solver hoàn thành, median/IQR, CPU time của solver và RSS sau exec. Trên các cell cùng hoàn thành, dense forest nhanh hơn truy hồi gốc trung bình nhân \ForestGeoSpeedup{} lần; DP compact nhanh hơn bản trước \DPGeoSpeedup{} lần trên partial 2-tree. TTSP 256 diamond tại $r=32$ đạt tỷ số \TTSPSpeedup{} lần so với ma trận. Ladder 64 cột có $2^{63}$ tuyến tĩnh vẫn được DP đếm đúng theo oracle đóng.
+
+Các định lý là kết quả được trình bày và kiểm chứng trong bản thảo; tuyên bố tính mới quốc tế vẫn cần thẩm định độc lập. Khóa luận không gọi chiến dịch hiện tại là vét cạn $n=5,r=2$, không so tốc độ với mã MSO tác giả chưa có, và không suy rộng synthetic benchmarks sang mọi mạng thực.
+
+\noindent\textbf{Từ khóa:} đồ thị thời gian; đếm chính xác; series--parallel; cactus; treewidth; strict paths; quy hoạch động; thực nghiệm tái lập.
+
+\chapter*{Abstract}
+\addcontentsline{toc}{chapter}{Abstract}
+
+This thesis develops explicit exact algorithms for simple temporal paths in undirected structured graphs. It improves the forest recurrence from quadratic to linear rank dependence, and obtains sparse-label counting proportional to relevant label incidences. For pole-to-pole TTSP queries, a proved acyclic orientation enables an event counter performing exactly one count addition per temporal edge after preprocessing, replacing the internal cubic-rank transfer-matrix baseline. A block-cut route extends the event method to arbitrary-terminal cactus queries.
+
+A connectivity dynamic program on a supplied width-$w$ tree decomposition uses local time inequalities and a cycle-rank proof at joins. Erasing terminal timestamps reduces the rank exponent of the state bound by two and yields $N(r+1)^{2w+2}2^{\bigO(w\log w)}$ arithmetic operations. The width-two specialization gives $\bigO(N(r+1)^6)$ and a proposed polynomial solution for arbitrary-terminal series--parallel graphs. Both strict and non-strict variants are proved and implemented; the parameter classification remains XP rather than treewidth-only FPT.
+
+A C++20 implementation with arbitrary-precision integers passes \AuditComparisons{} solver/oracle comparisons. The \BenchCases{}-cell campaign reports repeated median/IQR measurements, proper child-process CPU time, post-exec peak RSS and censored cases. Dense forest and optimized partial-two-tree DP obtain geometric-mean speedups of \ForestGeoSpeedup{} and \DPGeoSpeedup{} on paired completed cells. A 64-column ladder with $2^{63}$ static routes is counted exactly using an independent closed-form oracle. Worldwide novelty and final proof acceptance remain subject to independent academic review.

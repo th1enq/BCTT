@@ -1,0 +1,28 @@
+{
+  "master_seed": 20260928,
+  "repetitions": 7,
+  "warmups": 1,
+  "timeout_seconds": 3.0,
+  "target_batch_ms": 10.0,
+  "max_batch_iterations": 256,
+  "cpu_affinity": 0,
+  "cpu_frequency_fixed": false,
+  "compiler": "g++ (GCC) 14.3.0",
+  "compiler_flags": "-std=c++20 -O3 -DNDEBUG -Wall -Wextra -Wpedantic",
+  "platform": "Linux-6.12.93-x86_64-with-glibc2.40",
+  "machine": "laptop",
+  "source_sha256": "e5e3ff15c4d8793f66909c9b8c876c20801908559bed8b9f6d46d95db5050008",
+  "binary_sha256": "be4de9e3bd8824c816b1f4f277c5d61bdcc84cdaece6aaac327e6ad5581596f8",
+  "address_space_limit_mib": 1536,
+  "baseline": "own reimplementation of paper recurrence after rank compression",
+  "timing_region": "solver plus auxiliary-file reading/validation; excludes TG parsing",
+  "created_at": "2026-10-04T12:58:02+0700",
+  "cases": 160,
+  "rows": 2676,
+  "statuses": {
+    "ok": 2667,
+    "timeout": 6,
+    "skipped_budget": 3
+  },
+  "wall_seconds": 282.07762492200027
+}

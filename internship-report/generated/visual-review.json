@@ -1,0 +1,8 @@
+{
+  "status": "passed",
+  "pdf_sha256": "da565f8d6bcc86b1e6af25294d8f370712ccea6832a57a280db50c855d1ded3e",
+  "reviewed_pdf_pages": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19],
+  "method": "Rendered all pages at maximum dimension 1450 pixels and inspected each full page.",
+  "checks": ["Vietnamese glyphs", "math alphabets and operators", "table headers and rows", "plot and captions", "chapter transitions", "page numbering", "cover metadata", "blank evaluator fields"],
+  "material_layout_defects": 0
+}

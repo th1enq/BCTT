@@ -1,0 +1,24 @@
+% Keep the supplied UET class unchanged. Replace only unavailable font names.
+% Liberation Serif is a freely licensed, metric-compatible Times alternative.
+\newif\ifReportFontFallback
+\AddToHook{package/fontspec/after}{%
+  \IfFontExistsTF{Times New Roman}{}{%
+    \global\ReportFontFallbacktrue
+    \NewCommandCopy\ReportOriginalSetMainFont\setmainfont
+    \RenewDocumentCommand\setmainfont{O{} m O{}}{%
+      \IfFontExistsTF{#2}{%
+        \ReportOriginalSetMainFont[#1]{#2}[#3]%
+      }{%
+        \ReportOriginalSetMainFont[#1]{Liberation Serif}[#3]%
+      }%
+    }%
+  }%
+}
+\AddToHook{package/mathfont/after}{%
+  \ifReportFontFallback
+    \NewCommandCopy\ReportOriginalMathfont\mathfont
+    \RenewDocumentCommand\mathfont{O{} m}{%
+      \ReportOriginalMathfont[#1]{Liberation Serif}%
+    }%
+  \fi
+}

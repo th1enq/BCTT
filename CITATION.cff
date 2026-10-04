@@ -1,0 +1,25 @@
+cff-version: 1.2.0
+message: "If you use this research software, cite the repository and the underlying Counting Temporal Paths paper."
+title: "Counting Temporal Paths: reproducible C++ algorithms and benchmarks"
+type: software
+version: 0.1.0
+date-released: 2026-09-28
+authors:
+  - family-names: "Thesis author"
+    given-names: "Replace before publication"
+references:
+  - type: article
+    title: "Counting Temporal Paths"
+    authors:
+      - family-names: Enright
+        given-names: Jessica
+      - family-names: Meeks
+        given-names: Kitty
+      - family-names: Molter
+        given-names: Hendrik
+    journal: Algorithmica
+    volume: 87
+    start: 736
+    end: 782
+    year: 2025
+    doi: 10.1007/s00453-025-01301-3

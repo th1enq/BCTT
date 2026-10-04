@@ -1,0 +1,39 @@
+{
+  "campaigns": [
+    {
+      "n": 2,
+      "r": 2,
+      "graphs": 4,
+      "queries_both_modes": 16,
+      "comparisons": 64,
+      "cactus_queries": 16
+    },
+    {
+      "n": 3,
+      "r": 2,
+      "graphs": 64,
+      "queries_both_modes": 768,
+      "comparisons": 3072,
+      "cactus_queries": 768
+    },
+    {
+      "n": 4,
+      "r": 2,
+      "graphs": 4096,
+      "queries_both_modes": 98304,
+      "comparisons": 340728,
+      "cactus_queries": 45816
+    },
+    {
+      "n": 5,
+      "r": 1,
+      "graphs": 1024,
+      "queries_both_modes": 40960,
+      "comparisons": 147800,
+      "cactus_queries": 24920
+    }
+  ],
+  "comparisons": 491664,
+  "mismatches": 0,
+  "wall_seconds": 22.997
+}

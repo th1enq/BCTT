@@ -1,0 +1,12 @@
+ntd 11 10 2
+0 leaf 2 0 3
+1 introduce-v 0 1 3 0 1 3
+2 introduce-e 1 0 1 3 0 1 3
+3 introduce-e 2 1 3 3 0 1 3
+4 forget-v 3 1 2 0 3
+5 leaf 2 0 3
+6 introduce-v 5 2 3 0 2 3
+7 introduce-e 6 0 2 3 0 2 3
+8 introduce-e 7 2 3 3 0 2 3
+9 forget-v 8 2 2 0 3
+10 join 4 9 2 0 3

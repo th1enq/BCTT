@@ -1,0 +1,35 @@
+{
+  "research_inputs_sha256": {
+    "research_benchmark.csv": "f9311ea76a6b4782ff1409b9b441ae6163b5ad8a191150769a49f661ce64da07",
+    "research_ladder.csv": "ba4d8f0ccd31d37778f6742da75a15201badc3a3fab67f91901a8c503c76e5a7",
+    "research_benchmark_summary.csv": "32d6b0d046c4df339dd64a294e99f0f729fb551406e398eb33c96946ff9be612",
+    "research_highlights.json": "8d8620f9605110c19c9bb441444ea2b25512cab0a278264480020fcfaa80ccfc",
+    "research_audit_summary.json": "186bef4ed73ad127a3240b648aa74f5df2e0ebd6b46d9339a2f63a9848763c98",
+    "research_benchmark_metadata.json": "420e7abcb4238ae60c6718e12af07a59dc43b0b8d3fc25b9589cff3046c302f1",
+    "research_ladder_metadata.json": "9745c9e5a83f52c6db1950726642e5f3881d973593ab9667538ee530eaf831f8"
+  },
+  "unchanged_inputs_sha256": {
+    "template.pdf": "d6a62cd045af0c48fe8a5c26267b8fc19c96b8ff93293b2bc3f90abf6c6af4fc",
+    "results/temporal_path_thesis.pdf": "42e768e5f01aae9c26820ffca3fa2433438863dfa51795683bb4d3c6a0c79a98",
+    "uet-graduation-latex/uetgraduation.cls": "02952acb58f7dd08b18c13ba17d8502afe5e2994fdb188caf71c295be56d8bc5",
+    "uet-graduation-latex/sizes.clo": "068d45c39e698943e24356b150e1a66b675747bfca8ab59f4ab0434e6b92ff03",
+    "uet-graduation-latex/UET logo.pdf": "ffd8f8293ffff44c8bc715aa58ee5420451fdfab7b23ec3b497c3e22a0bb4cb1"
+  },
+  "benchmark_cases": 190,
+  "raw_rows": 3308,
+  "completed_solver_cases": 470,
+  "comparisons": 741280,
+  "query_mode_cases": 259856,
+  "statuses": {
+    "ok": 3290,
+    "timeout": 15,
+    "skipped_budget": 3
+  },
+  "generated_files_sha256": {
+    "ablation.tex": "28654fc40e0e5ec2c5dce2a5833c4f1f09a605044d7e559c7b97bf4173e174ad",
+    "audit.tex": "f96f25a0a569d5fa134eaa573fa856aba2f5ba2964f02a265b2015ce589d11d7",
+    "ladder.tex": "9e5f247ae3a9fff83f7be97acc68397aacf9df5b3d61634ea64ee465fc412640",
+    "numbers.tex": "d613e9fb4e063ad5fc8adcb9a09162b219ba1db6750e53c1a0f8f454deed742a",
+    "speedups.tex": "ac862203e7498398ed812a6080a91ffd8896251f9f1fa3540cc46854fa1c5b2e"
+  }
+}

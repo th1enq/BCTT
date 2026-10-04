@@ -1,0 +1,30 @@
+{
+  "status": "passed",
+  "source_sha256": "ae3ea3e18ef07fc52f4b4e7040f24e05470d89b2d93219554528b24bec819694",
+  "binary_sha256": "c0ee2156c9d18d38bb5dd86c6816d90b3874c95626d08843de9ed40ac59e94da",
+  "validation_controller_sha256": "414d9e40a1be611a6fcbc1e25892249e6b58c8831ef8a52a65f25223af18920b",
+  "aggregation_controller_sha256": "19a2b89c093d9a3e0b8f6b6e1ac200657a99889b5fbc5d2a5305271c23ea2210",
+  "thesis_source_sha256": "3422badf1f817839f9df565a32d9418ba6192fca119461ef7592a70d4222bb0a",
+  "benchmark_instances": 190,
+  "raw_records": 3308,
+  "completed_solver_cells": 470,
+  "censored_solver_cells": 18,
+  "audit_comparisons": 741280,
+  "artifact_sha256": {
+    "research_benchmark.csv": "f9311ea76a6b4782ff1409b9b441ae6163b5ad8a191150769a49f661ce64da07",
+    "research_benchmark_metadata.json": "420e7abcb4238ae60c6718e12af07a59dc43b0b8d3fc25b9589cff3046c302f1",
+    "research_ladder.csv": "ba4d8f0ccd31d37778f6742da75a15201badc3a3fab67f91901a8c503c76e5a7",
+    "research_ladder_metadata.json": "9745c9e5a83f52c6db1950726642e5f3881d973593ab9667538ee530eaf831f8",
+    "figures/cactus-scaling.pdf": "5001c94bbd3d71c254921eedf00ad08cfce29bead3f0cfb52063ec104ceb3cf1",
+    "figures/density-control.pdf": "e1c3e19d7d288a2a5ab786968de7288170370df0f7643c0bf983ea23787fb8a0",
+    "figures/forest-scaling.pdf": "ac02fa500bcec6983d8168dfe2cf3aec5575fde944e930f8f977e20ac8504bfb",
+    "figures/ladder-scaling.pdf": "e73bddb48f2096b2f4d0224ae7cfbaaa542cc0c4a074f644b2c08dc5fee438be",
+    "figures/partial2-scaling.pdf": "cb8eb40ab2f3ca8a96906247eb0601e00884da782ff3c2552c93bcf4f3441dfe",
+    "figures/ttsp-scaling.pdf": "b5ae7d5c94c5d6aad1ba25771a6690244e1aba88140f7878d5ccd0cd6e40a8a1",
+    "figures/width-scaling.pdf": "4066b0707c3bea5ee63372f7a4941bee26ef64a62b31556e96202afcc8cd081a",
+    "research_benchmark_summary.csv": "32d6b0d046c4df339dd64a294e99f0f729fb551406e398eb33c96946ff9be612",
+    "research_audit_summary.json": "186bef4ed73ad127a3240b648aa74f5df2e0ebd6b46d9339a2f63a9848763c98",
+    "research_audit_cases.csv": "bd3416790476a822908b8541cde756b1ad61429b450d3fe2417cf337b1c7393e",
+    "temporal_path_thesis.pdf": "42e768e5f01aae9c26820ffca3fa2433438863dfa51795683bb4d3c6a0c79a98"
+  }
+}

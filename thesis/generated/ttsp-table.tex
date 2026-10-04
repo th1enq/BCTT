@@ -1,0 +1,19 @@
+\begin{table}[htbp]
+\centering
+\small
+\setlength{\tabcolsep}{4pt}
+\caption{TTSP: median thời gian và maximum peak RSS qua các lần đo; skip là giới hạn ngân sách.}
+\label{tab:ttsp-repeated}
+\begin{tabular}{lrrrrrr}
+\toprule
+$k$ & $r$ thật & Matrix ms & Events ms & M/E & RSS M/E MiB & Bit \\
+\midrule
+1 & 32 & 0.736 & 0.0249 & 29.6 & 4.12/3.85 & 11 \\
+16 & 32 & 18.5 & 0.393 & 47.2 & 9.2/4.09 & 76 \\
+64 & 32 & 79 & 1.6 & 49.2 & 25.4/4.8 & 174 \\
+256 & 32 & 365 & 7.53 & 48.4 & 92.6/8.01 & 424 \\
+32 & 128 & 1.71e+03 & 2.2 & 776 & 167/5.65 & 204 \\
+1024 & 7082 & skip & 14.8 & -- & --/7.14 & 1029 \\
+\bottomrule
+\end{tabular}
+\end{table}

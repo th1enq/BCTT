@@ -1,0 +1,8 @@
+{
+  "master_seed": 20260928,
+  "forest_comparisons": 3000,
+  "ttsp_comparisons": 2500,
+  "partial2_comparisons": 1000,
+  "total": 6500,
+  "mismatches": 0
+}

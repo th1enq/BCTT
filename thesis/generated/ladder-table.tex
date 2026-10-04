@@ -1,0 +1,20 @@
+\begin{table}[htbp]
+\centering
+\small
+\setlength{\tabcolsep}{4pt}
+\caption{Ladder width hai với r=4 và truy vấn top-left/bottom-right; oracle đóng cho mọi cell.}
+\label{tab:ladder}
+\begin{tabular}{lrrrr}
+\toprule
+Cột $c$ & Tuyến tĩnh & Brute ms & DP cũ ms & DP mới ms \\
+\midrule
+4 & $2^{3}$ & 0.00737 & 1.3 & 0.303 \\
+8 & $2^{7}$ & 0.25 & 3.73 & 0.876 \\
+12 & $2^{11}$ & 6.25 & 5.76 & 1.47 \\
+16 & $2^{15}$ & 138 & 9.07 & 2.04 \\
+24 & $2^{23}$ & T/O & 14.2 & 3.16 \\
+32 & $2^{31}$ & T/O & 19.4 & 4.66 \\
+64 & $2^{63}$ & T/O & 40.6 & 9.38 \\
+\bottomrule
+\end{tabular}
+\end{table}

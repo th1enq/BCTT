@@ -1,0 +1,31 @@
+{
+  "master_seed": 20260928,
+  "repetitions": 7,
+  "warmups": 1,
+  "timeout_seconds": 3.0,
+  "target_batch_ms": 10.0,
+  "max_batch_iterations": 256,
+  "cpu_affinity": 0,
+  "cpu_frequency_fixed": false,
+  "compiler": "g++ (GCC) 14.3.0",
+  "compiler_flags": "-std=c++20 -O3 -DNDEBUG -Wall -Wextra -Wpedantic",
+  "platform": "Linux-6.12.93-x86_64-with-glibc2.40",
+  "machine": "laptop",
+  "source_sha256": "ae3ea3e18ef07fc52f4b4e7040f24e05470d89b2d93219554528b24bec819694",
+  "binary_sha256": "c0ee2156c9d18d38bb5dd86c6816d90b3874c95626d08843de9ed40ac59e94da",
+  "address_space_limit_mib": 1536,
+  "controller_sha256": "5d3e03b7e203e30df8a4426ee80ac712290377a0e664f81c07665e1385d18e7a",
+  "generator_sha256": "287a99d30504266441bcf79d330c8031552e787853e7997872cbe5fbce2c3c35",
+  "baseline": "own reimplementation of paper recurrence after rank compression",
+  "timing_region": "solver plus auxiliary-file reading/validation; excludes TG parsing",
+  "rss_measurement": "Linux /proc/self/status VmHWM of post-exec C++ address space",
+  "created_at": "2026-10-04T13:46:16+0700",
+  "cases": 169,
+  "rows": 2921,
+  "statuses": {
+    "ok": 2912,
+    "timeout": 6,
+    "skipped_budget": 3
+  },
+  "wall_seconds": 285.6298476669999
+}

@@ -1,0 +1,20 @@
+\contentsline {chapter}{\numberline {Chương\ 1.}{Giới thiệu chung}}{1}{chapter.1}%
+\contentsline {section}{\numberline {1.1.}{Bối cảnh và câu hỏi nghiên cứu}}{1}{section.1.1}%
+\contentsline {section}{\numberline {1.2.}{Mục tiêu và công việc đã thực hiện}}{1}{section.1.2}%
+\contentsline {chapter}{\numberline {Chương\ 2.}{Yêu cầu và phạm vi bài toán}}{2}{chapter.2}%
+\contentsline {section}{\numberline {2.1.}{Mô hình đường đi thời gian}}{2}{section.2.1}%
+\contentsline {section}{\numberline {2.2.}{Miền áp dụng và tiêu chí đánh giá}}{2}{section.2.2}%
+\contentsline {chapter}{\numberline {Chương\ 3.}{Ý tưởng và thuật toán}}{4}{chapter.3}%
+\contentsline {section}{\numberline {3.1.}{Quy hoạch động trên phân rã cây}}{4}{section.3.1}%
+\contentsline {section}{\numberline {3.2.}{Xóa nhãn đầu cuối và cận độ phức tạp}}{5}{section.3.2}%
+\contentsline {section}{\numberline {3.3.}{Tổng tiền tố trên rừng}}{6}{section.3.3}%
+\contentsline {section}{\numberline {3.4.}{Quét sự kiện trên TTSP và cactus}}{6}{section.3.4}%
+\contentsline {section}{\numberline {3.5.}{Giới hạn cấu trúc và chi phí số lớn}}{7}{section.3.5}%
+\contentsline {chapter}{\numberline {Chương\ 4.}{Kết quả thực nghiệm và đánh giá}}{9}{chapter.4}%
+\contentsline {section}{\numberline {4.1.}{Thiết kế kiểm chứng và phép đo}}{9}{section.4.1}%
+\contentsline {section}{\numberline {4.2.}{Tăng tốc và ý nghĩa của đối chứng}}{10}{section.4.2}%
+\contentsline {section}{\numberline {4.3.}{Đóng góp của tối ưu và trường hợp khó}}{11}{section.4.3}%
+\contentsline {chapter}{\numberline {Chương\ 5.}{Kết quả đạt được và hướng phát triển}}{13}{chapter.5}%
+\contentsline {section}{\numberline {5.1.}{Kết quả và kiến thức thu được}}{13}{section.5.1}%
+\contentsline {section}{\numberline {5.2.}{Hướng nghiên cứu tiếp theo}}{13}{section.5.2}%
+\contentsline {chapter}{Tài liệu tham khảo}{14}{section*.1}%

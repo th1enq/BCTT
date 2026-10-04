@@ -1,0 +1,20 @@
+{
+  "status": "passed",
+  "pdf_sha256": "da565f8d6bcc86b1e6af25294d8f370712ccea6832a57a280db50c855d1ded3e",
+  "total_pages": 19,
+  "body_start": 1,
+  "body_end": 13,
+  "body_pages": 13,
+  "citations": [
+    "atlas",
+    "enright2025",
+    "eppstein1992",
+    "tarjan1972"
+  ],
+  "missing_glyphs": 0,
+  "overfull_boxes": 0,
+  "original_assets_preserved": true,
+  "data_manifest_sha256": "682ca35eb89f66245cce166732f4f6e61b97d2f482fa3f289437a520aa752046",
+  "generated_tables_checked": 5,
+  "visual_review": "passed"
+}

@@ -1,0 +1,40 @@
+\chapter{Kết luận và hướng phát triển}
+\label{chap:conclusion}
+
+\section{Kết quả thuật toán}
+
+Khóa luận chuyển câu hỏi đếm đường đi thời gian trên cấu trúc hẹp thành các thuật toán và cận kiểm tra được. Trên rừng, đánh giá lại cùng truy hồi bằng tổng tiền tố hoặc hai con trỏ giảm chi phí theo số hạng và số nhãn thực sự. Đây là cải tiến của thuật toán trên cùng miền với paper, không phải lời giải cho graph tổng quát.
+
+Trên TTSP cực--cực, ma trận truyền cung cấp một đại số đúng nhưng dư thông tin cho một truy vấn. Song ánh với DAG cho phép thay phép nhân ma trận bằng quét sự kiện, thực hiện đúng một phép cộng mỗi time-edge sau tiền xử lý. Cactus dùng route block--cut để mở rộng miền truy vấn mà vẫn giữ một định hướng tương đương. Wheatstone và ladder làm rõ vì sao hướng này không tự bao phủ mọi query SP.
+
+DP treewidth giải miền tổng quát hơn bằng trạng thái thời gian cục bộ và phân hoạch liên thông. Đẳng thức $\beta(F_1\cup F_2)=\beta(J)$ chứng minh điều kiện join, kể cả multiedge trong incidence graph. Terminal quotient chỉ giữ trạng thái đã dùng cạnh, giảm exponent trạng thái theo $r$ từ $w+3$ xuống $w+1$. Cận mới $N(r+1)^{2w+2}2^{\bigO(w\log w)}$ cho width hai là $\bigO(N(r+1)^6)$. Thay so sánh và tie ordering cho strict giữ nguyên cấu trúc chứng minh trên các lớp này.
+
+\section{Trả lời câu hỏi nghiên cứu}
+
+\paragraph{RQ1.} Có cải tiến cận đánh giá forest: từ $\bigO(|P|r^2)$ của bản truy hồi trực tiếp sau compression xuống $\bigO(|P|r)$ hoặc $\bigO(|P|+M_P)$ theo số phép toán số học. Trên \ForestPairedCells{} cell dày cùng hoàn thành, trung bình nhân speedup là \ForestGeoSpeedup{} lần; density control giữ $r$ cố định xác nhận lợi ích của nhãn thưa.
+
+\paragraph{RQ2.} TTSP cực--cực có lõi quét $\bigO(n+m+M+r)$ sau định hướng/nén hạng. Tại 256 diamond và 32 hạng, median sự kiện \TTSPEventTime{} ms so với ma trận \TTSPMatrixTime{} ms. Chi phí input, structural validation và độ dài bit vẫn được nêu riêng.
+
+\paragraph{RQ3.} DP tường minh thuộc XP theo treewidth. Width hai cho thuật toán đa thức với terminal tùy ý, kể cả các graph như ladder không được giải bằng một định hướng TTSP theo query. Không kết luận FPT chỉ theo treewidth hoặc giải \#P-hard counting trong graph bất kỳ.
+
+\paragraph{RQ4.} Cài đặt có \AuditComparisons{} đối chiếu mới không sai lệch và \BenchCases{} cấu hình đo lặp. Oracle Python/time-edge enumeration, công thức đóng và metamorphic tests kiểm tra những cơ chế khác nhau. Telemetry ablation giúp phân biệt cải tiến cận trạng thái, số cặp join và thời gian sống bảng. Benchmark lưu cả \BenchTimeouts{} timeout và \BenchSkips{} budget skip.
+
+\section{Mức độ đóng góp so với paper}
+
+So với kết quả forest của paper, khóa luận cải thiện đánh giá truy hồi và cung cấp số liệu thực thi. So với giả thuyết series--parallel, khóa luận đưa ra một lời giải đa thức tường minh trong bản thảo, cài đặt và các test có cặp đầu cuối tùy ý. TTSP sự kiện và cactus là thuật toán chuyên biệt có cận tốt hơn baseline ma trận của chính dự án. Strict mở rộng các định lý đang xét, không tự chuyển toàn bộ hardness/approximation results của paper.
+
+Các thành phần như prefix sum, Tarjan, topological sort và partition DP là chuẩn. Đóng góp cần được đánh giá ở tính đúng của cách kết hợp, trạng thái tối giản, phạm vi định lý và bằng chứng tái lập. Rà soát đã bổ sung nguồn 2025--2026 nhưng chưa có kết luận độc lập về ưu tiên công bố. Cách phát biểu phù hợp là ``đề xuất và chứng minh trong khóa luận một lời giải đa thức cho trường hợp SP'', với tính mới quốc tế là đối tượng thẩm định tiếp theo.
+
+\section{Hạn chế còn lại}
+
+XP có số mũ phụ thuộc width và cận thô còn lớn; độ nhạy thực nghiệm width bốn đã cho thấy giới hạn. Join indexing không thay đổi exponent xấu nhất. Cận bộ nhớ sau giải phóng bảng phụ thuộc frontier/chiều cao decomposition; chưa tối ưu lịch đánh giá và packing toàn bộ trạng thái.
+
+Vét cạn toàn bộ $n=5,r=2$ chưa hoàn thành. Chiến dịch có dữ liệu tổng hợp và Atlas, chưa có mạng thời gian thực. Bảy lượt đo không loại hết DVFS/nhiễu; RSS gồm parsing và allocator. Phân rã width không quá hai được hỗ trợ, nhưng width cao nhận TD ngoài; không giải bài toán tìm treewidth tối ưu tổng quát.
+
+\section{Các hướng nghiên cứu tiếp theo}
+
+Ưu tiên lý thuyết là phản biện độc lập các định lý, đặc biệt quotient terminal, tính đầy đủ tại forget và join incidence. Tiếp theo, tìm DP riêng cho query SP tùy ý có exponent nhỏ hơn sáu; hoặc khai thác nhiều query dùng chung preprocessing để giảm chi phí lặp. Nghiên cứu ranh giới FPT/XP theo treewidth đòi hỏi kết quả riêng, không suy từ tối ưu engineering hiện tại.
+
+Về thực nghiệm, mở rộng vét cạn bằng runner checkpoint và chia miền cấu hình; đo trên máy kiểm soát tần số với nhiều seed độc lập. Có thể thêm dữ liệu thực sau khi định nghĩa rõ phép trích subgraph width thấp và tỷ lệ giữ lại. Những kết quả trên subgraph phải được báo đúng phạm vi, không như lời giải trên toàn bộ mạng.
+
+Về phần mềm, dùng thư viện số nguyên lớn đã được kiểm chứng rộng rãi để đối chiếu thêm, tối ưu parser/lookup, lịch giải phóng bảng và stack đánh giá TD. Các bước này có thể cải thiện end-to-end performance sau khi lõi đếm đã nhanh, và phải đo lại bằng đúng protocol cùng source hash.

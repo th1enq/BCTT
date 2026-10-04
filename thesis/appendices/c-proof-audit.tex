@@ -1,0 +1,27 @@
+\chapter{Thẩm định chứng minh}
+
+\begin{enumerate}[label=$\square$,leftmargin=1.2cm]
+  \item Mô hình so sánh chính khớp bài báo 2025: thời gian $\le$; biến thể strict $<$ được ghi tách biệt, không trộn đáp án.
+  \item Mỗi static edge được introduce đúng một lần và chỉ chọn tối đa một timestamp.
+  \item Ràng buộc indegree/outdegree ngăn branching.
+  \item Cycle test tại introduce-edge đúng.
+  \item Đỉnh nonterminal được dùng phải là \textsc{Both} trước khi forget.
+  \item Không thành phần nào biến mất khỏi separator.
+  \item Incidence multigraph lemma dùng đồng nhất cycle rank $\beta(U)=\beta(J)$, bao gồm chu trình hai cạnh song song; không suy diễn từ closed walk sang cycle.
+  \item Phân hoạch cha ở join là bao đóng đúng của hai quan hệ con.
+  \item Root loại mọi thành phần dư và buộc đúng một đường $s$--$z$.
+  \item Hướng của đường bắt buộc từ $s$ tới $z$.
+  \item Bất đẳng thức cục bộ suy ra dãy nhãn không giảm, hoặc tăng nghiêm ngặt trong chế độ strict.
+  \item Completeness sử dụng đúng tính liên thông của bag chứa một đỉnh.
+  \item Không có double count do edge introduction duy nhất.
+  \item Compact timestamp ở $s,z$ chỉ bật cùng terminal pruning; không có ràng buộc so thời gian tại hai terminal.
+  \item State bound tính cả Bell partitions và chỉ $w+1$ nonterminal trong bag chuẩn hóa; cận width hai là $\bigO(N(r+1)^6)$ phép toán số học.
+  \item Độ dài bit của số đếm là đa thức với $w$ cố định.
+  \item Thuật ngữ TTSP, series--parallel và partial $2$-tree được phân biệt đúng.
+  \item Định hướng TTSP giữ đúng mọi đường cực--cực; cactus giữ đúng mọi đường theo tuyến block--cut; không mở rộng lemma này sang Wheatstone tùy ý.
+  \item Tie ordering của sự kiện incoming/outgoing đúng cho cả $\le$ và $<$; mỗi temporal edge sinh đúng một phép cộng.
+  \item Parsing, validation, xây decomposition và chi phí bit được tách khỏi cận số phép toán; RSS đo đúng address space sau exec.
+  \item Novelty claim đã được kiểm tra độc lập và cập nhật đến ngày nộp.
+\end{enumerate}
+
+Không đánh dấu một mục chỉ dựa trên unit test. Checklist này dành cho giảng viên hướng dẫn hoặc phản biện độc lập đọc chứng minh và đối chiếu mã nguồn.

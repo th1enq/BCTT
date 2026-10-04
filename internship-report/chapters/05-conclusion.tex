@@ -1,0 +1,18 @@
+\chapter{Kết quả đạt được và hướng phát triển}
+
+\section{Kết quả và kiến thức thu được}
+
+Đề tài đã xây dựng được một khung đếm chính xác dựa trên cấu trúc đồ thị. Đóng góp lý thuyết chính là cục bộ hóa điều kiện thời gian, giữ quan hệ liên thông qua biên và xóa nhãn không cần thiết ở hai đầu cuối. Khung này cho thuật toán đa thức khi treewidth cố định, với cận $\bigO(N(r+1)^6)$ trên partial 2-tree và hai đầu cuối tùy ý. Đây là phần khác biệt quan trọng so với việc chỉ tối ưu truy hồi trên rừng hoặc chỉ xử lý truy vấn trùng hai cực TTSP.
+
+Về thuật toán chuyên biệt, tổng tiền tố giảm một bậc phụ thuộc số nhãn trên rừng; quét sự kiện tránh ma trận truyền dày trên TTSP và mở rộng sang cactus theo truy vấn. Về thực nghiệm, các đối chiếu không có sai lệch và phép đo lặp cho thấy tăng tốc trên các họ đã khảo sát, đồng thời làm rõ trường hợp hết giờ, giới hạn bộ nhớ và tác động riêng của các tối ưu.
+
+Những kiến thức và kỹ năng gắn với công việc gồm mô hình hóa đối tượng đếm, xây dựng bất biến, tách điều kiện thời gian khỏi liên thông, phân tích số nguyên lớn và thiết kế thực nghiệm có đối chứng. Trọng tâm là giải thích tính đúng và hiệu quả trong miền áp dụng.
+
+\section{Hướng nghiên cứu tiếp theo}
+
+Ưu tiên tiếp theo là thẩm định độc lập chứng minh, đặc biệt ở bước ghép hai rừng và gộp nhãn đầu cuối, rồi đối chiếu có hệ thống với các công trình mới. Các kết quả trong báo cáo là đóng góp được đề xuất và kiểm chứng trong phạm vi đề tài; chưa thể thay thế quy trình phản biện khoa học bằng một kết luận về tính mới toàn cầu.
+
+Về thuật toán, có thể nghiên cứu giảm số cặp ghép, khai thác thêm cấu trúc của partial 2-tree và tìm cận thấp hơn số mũ sáu theo $r$. Câu hỏi cụ thể là có thể giảm sự phụ thuộc nhãn tại biên mà vẫn bảo toàn tính đơn hay không; không giả định trước rằng phép định hướng sự kiện mở rộng được sang mọi đồ thị độ rộng hai.
+
+Về thực nghiệm, cần thêm hạt giống, ổn định tần số CPU và bổ sung mạng thực tế. Hướng ứng dụng là tính chỉ số trung gian thời gian với định nghĩa đường đi tối ưu và phép giảm phù hợp. Các hướng này chưa được ghi nhận là kết quả hoàn thành.
+\label{report:body:end}

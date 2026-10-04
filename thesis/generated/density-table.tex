@@ -1,0 +1,18 @@
+\begin{table}[htbp]
+\centering
+\small
+\setlength{\tabcolsep}{4pt}
+\caption{Kiểm soát mật độ: đường dài 1000 cạnh, compressed rank cố định 1000.}
+\label{tab:density-control}
+\begin{tabular}{lrrrrr}
+\toprule
+Nhãn/cạnh $d$ & $r$ & Paper ms & Dense ms & Sparse ms & Dense/Sparse \\
+\midrule
+1 & 1000 & 6.94 & 3.33 & 0.228 & 14.6 \\
+4 & 1000 & 10.9 & 3.38 & 0.338 & 10 \\
+16 & 1000 & 28.9 & 3.69 & 0.905 & 4.08 \\
+100 & 1000 & 189 & 6.98 & 6.64 & 1.05 \\
+1000 & 1000 & T/O & 64.9 & 119 & 0.545 \\
+\bottomrule
+\end{tabular}
+\end{table}

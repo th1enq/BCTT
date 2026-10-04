@@ -1,0 +1,9 @@
+\begin{preamble}{Tóm tắt}
+Báo cáo nghiên cứu bài toán đếm chính xác đường đi đơn có nhãn thời gian không giảm hoặc tăng nghiêm ngặt giữa hai đỉnh trên đồ thị vô hướng. Mục tiêu là khai thác cấu trúc đồ thị để tránh liệt kê số lượng đường đi có thể tăng theo hàm mũ.
+
+Kết quả chính là quy hoạch động trên phân rã cây, chỉ lưu nhãn tại các đầu mút chưa hoàn tất và quan hệ liên thông qua biên. Với độ rộng $w$ cố định, thuật toán có cận $N(r+1)^{2w+2}2^{\bigO(w\log w)}$ phép toán số học; $r$ là số nhãn phân biệt và $N$ là số nút phân rã chuẩn hóa. Hệ quả là cận $\bigO(N(r+1)^6)$ trên partial 2-tree, cho hai đầu cuối tùy ý. Báo cáo cũng trình bày tổng tiền tố trên rừng và quét sự kiện trên TTSP cực--cực, cactus.
+
+Thực nghiệm có \BenchmarkCases{} trường hợp, \RawRows{} bản ghi và \AuditComparisons{} lượt đối chiếu không có sai lệch. Trung bình nhân tăng tốc lần lượt là \ForestGM{} lần so với truy hồi rừng được tái hiện từ bài báo gốc, \TTSPGM{} lần so với ma trận TTSP nội bộ và \PartialGM{} lần so với DP nội bộ cũ. Các kết quả lý thuyết của đề tài cần tiếp tục được thẩm định độc lập; kiểm thử không thay thế chứng minh.
+
+\vspace{0.4cm}\textbf{Từ khóa:} đường đi thời gian, đếm chính xác, quy hoạch động, độ rộng cây, series--parallel.
+\end{preamble}

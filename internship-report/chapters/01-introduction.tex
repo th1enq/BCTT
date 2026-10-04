@@ -1,0 +1,16 @@
+\chapter{Giới thiệu chung}
+\label{report:body:start}
+
+\section{Bối cảnh và câu hỏi nghiên cứu}
+
+Trong một mạng có tương tác thay đổi theo thời gian, một tuyến nối hai đỉnh trên đồ thị tĩnh chưa chắc là tuyến có thể sử dụng theo thứ tự thời gian. Chẳng hạn, hai cạnh liên tiếp hoạt động lần lượt tại thời điểm $5$ và $2$ không tạo thành một đường đi thời gian theo hướng đó. Vì vậy, số đường đi phụ thuộc đồng thời vào cấu trúc mạng và tập thời điểm hoạt động của từng cạnh.
+
+Bài báo \textit{Counting Temporal Paths} của Enright, Meeks và Molter nghiên cứu độ phức tạp của bài toán này, đưa ra thuật toán đa thức cho rừng, kết quả FPT theo treewidth kết hợp lifetime và giả thuyết mở rộng sang series--parallel~\cite{enright2025}. Câu hỏi của đề tài là: có thể đếm chính xác trên lớp cấu trúc rộng hơn rừng khi số nhãn thời gian vẫn là một phần không bị chặn của đầu vào hay không?
+
+\section{Mục tiêu và công việc đã thực hiện}
+
+Mục tiêu của đợt nghiên cứu là xây dựng các thuật toán đếm dựa trên cấu trúc, phân tích điều kiện áp dụng và đo mức cải thiện bằng thực nghiệm có đối chứng. Trọng tâm báo cáo là ý tưởng, bất biến, lập luận tính đúng, độ phức tạp và kết quả; tổ chức mã nguồn và chi tiết cài đặt không thuộc nội dung trình bày.
+
+Phần việc được ghi nhận gồm ba hướng liên kết với nhau. Hướng tổng quát xây dựng quy hoạch động theo phân rã cây để xử lý hai đầu cuối tùy ý. Hướng chuyên biệt dùng tổng tiền tố và quét sự kiện để giảm chi phí trên rừng, TTSP và cactus. Hướng thực nghiệm xây dựng các đối chiếu độc lập, bộ dữ liệu kiểm thử và phép đo lặp để đánh giá tính đúng, thời gian, bộ nhớ.
+
+Đóng góp quan trọng nhất là kết quả đếm đa thức khi treewidth cố định và hệ quả cho partial 2-tree. Việc xóa nhãn tại hai đầu cuối làm giảm số đỉnh cần lưu nhãn trong mỗi túi phân rã, từ đó cải thiện số mũ theo số nhãn. Các kỹ thuật nền như tổng tiền tố, thứ tự tô-pô và phân rã thành khối là kiến thức kế thừa; đóng góp nằm ở cách sử dụng chúng trong bài toán, phạm vi chứng minh và kiểm chứng kết quả, không phải tuyên bố phát minh các kỹ thuật đó.

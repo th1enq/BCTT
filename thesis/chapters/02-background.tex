@@ -1,0 +1,111 @@
+\chapter{Cơ sở lý thuyết và công trình liên quan}
+\label{chap:background}
+
+\section{Đồ thị thời gian}
+
+\begin{definition}[Đồ thị thời gian]
+Một đồ thị thời gian vô hướng, đơn là bộ ba $\cG=(V,\cE,T)$, trong đó $V$ là tập đỉnh, $T\in\mathbb{N}$ là lifetime và
+\[
+  \cE\subseteq \binom{V}{2}\times[T]
+\]
+là tập cạnh--thời gian. Đồ thị nền $G=(V,E)$ chứa cạnh $e$ khi tồn tại ít nhất một $t$ sao cho $(e,t)\in\cE$.
+\end{definition}
+
+Với cạnh tĩnh $e$, ký hiệu $L(e)=\{t:(e,t)\in\cE\}$. Một đường đi thời gian phải đơn về đỉnh ở lớp tĩnh; do đó, nó khác với temporal walk, nơi một đỉnh có thể xuất hiện nhiều lần. Khóa luận lấy quy ước không nghiêm ngặt của Enright và cộng sự làm thiết lập chính, đồng thời kiểm chứng riêng biến thể nghiêm ngặt. Các nhãn liên tiếp lần lượt thỏa $\le$ và $<$ \cite{enright2025}. Thứ tự sự kiện bằng thời điểm là quan trọng trong cả chứng minh và kiểm thử.
+
+\begin{example}
+Xét đường đi tĩnh $s-u-z$ với $L(su)=\{1,2\}$ và $L(uz)=\{2,3\}$. Bốn lựa chọn hợp lệ là $(1,2),(1,3),(2,2),(2,3)$. Nếu dùng định nghĩa nghiêm ngặt, lựa chọn $(2,2)$ bị loại và đáp án còn ba.
+\end{example}
+
+\section{Đếm chính xác và độ phức tạp tham số}
+
+Giá trị đếm có thể lớn theo hàm mũ, nên thời gian chạy cần được hiểu theo cả số phép toán số học và độ dài bit. Với mỗi cạnh tĩnh, một nghiệm cục bộ có tối đa $1+2r$ lựa chọn gồm bỏ qua hoặc chọn một trong hai hướng và một hạng thời gian. Một cận thô cho giá trị trung gian là $(1+2r)^{|E|}$, tương ứng $\bigO(|E|\log(1+2r))$ bit, kể cả $r=1$. Vì vậy, với treewidth cố định, chi phí bit của số nguyên lớn vẫn là đa thức.
+
+Một bài toán tham số hóa bởi $k$ thuộc FPT nếu giải được trong $f(k)N^{\bigO(1)}$; nó thuộc XP nếu thời gian là $N^{f(k)}$. Khác biệt này có ý nghĩa ở đây. Bài báo gốc cho FPT theo \emph{tổ hợp} treewidth và lifetime bằng MSO/Courcelle \cite{enright2025,courcelle2012}. Thuật toán của khóa luận bỏ lifetime khỏi tập tham số nhưng đạt XP, không phải FPT, theo treewidth. Điều này không mâu thuẫn với kết quả hardness theo feedback vertex number trong bài báo gốc.
+
+\section{Nén hạng thời gian}
+
+Giả sử các nhãn thực sự xuất hiện là
+\[
+  \tau_1<\tau_2<\cdots<\tau_r.
+\]
+Thay $\tau_i$ bởi $i$.
+
+\begin{lemma}[Bảo toàn qua nén hạng]
+Phép nén hạng tạo song ánh giữa các đường đi thời gian trước và sau biến đổi.
+\end{lemma}
+
+\begin{proof}
+Tính khả thi chỉ dùng các so sánh $t_i\le t_{i+1}$. Ánh xạ hạng bảo toàn thứ tự chặt, nên
+\[
+  \tau_i\le\tau_j \iff i\le j.
+\]
+Đường đi tĩnh và lựa chọn lần xuất hiện của mỗi cạnh không thay đổi. Ánh xạ thuận và nghịch do đó bảo toàn từng nghiệm.
+\end{proof}
+
+Hệ quả thực hành là độ phức tạp nên viết theo $r$ thay vì giá trị số lớn nhất $T$. Luôn có $r\le|\cE|$, kể cả khi timestamp gốc là Unix time hoặc số nguyên rất thưa.
+
+\section{Rừng, series--parallel và treewidth}
+
+Trong rừng, giữa $s$ và $z$ có nhiều nhất một đường đi tĩnh. Điều này loại bỏ phần khó về lựa chọn topology và chỉ còn đếm chuỗi nhãn không giảm.
+
+Đồ thị TTSP được xây dựng đệ quy từ một cạnh có thứ tự hai cực $(x,y)$ bằng hai phép:
+\begin{itemize}
+  \item \emph{series}: đồng nhất cực phải của thành phần thứ nhất với cực trái của thành phần thứ hai;
+  \item \emph{parallel}: đồng nhất đồng thời hai cặp cực tương ứng.
+\end{itemize}
+Khái niệm series--parallel trong tài liệu có một số biến thể. Khóa luận phân biệt thuật toán TTSP chuyên biệt, yêu cầu truy vấn trùng hai cực, với hệ quả treewidth áp dụng cho partial $2$-tree và đầu cuối tùy ý. Việc nhận dạng và phân rã series--parallel có thể thực hiện hiệu quả \cite{eppstein1992}.
+
+\begin{definition}[Phân rã cây]
+Một phân rã cây của $G=(V,E)$ là cây $\mathcal{T}$ với mỗi nút $x$ mang bag $B_x\subseteq V$, thỏa:
+\begin{enumerate}
+  \item mỗi đỉnh xuất hiện trong ít nhất một bag;
+  \item với mọi $uv\in E$, có bag chứa cả $u,v$;
+  \item các bag chứa một đỉnh cố định tạo thành cây con liên thông.
+\end{enumerate}
+Độ rộng là $\max_x|B_x|-1$; treewidth $\tw(G)$ là độ rộng nhỏ nhất.
+\end{definition}
+
+Nice tree decomposition dùng các nút leaf, introduce-vertex, introduce-edge, forget-vertex và join. Trong khóa luận, $s,z$ được thêm vào mọi bag; nếu phân rã ban đầu có độ rộng $w$, kích thước bag sau chuẩn hóa không quá $w+3$. Mỗi cạnh tĩnh được introduce đúng một lần.
+
+\section{Kết quả đã biết và khoảng trống nghiên cứu}
+
+Bài báo Algorithmica 2025 chứng minh ba dữ kiện định hướng nghiên cứu này \cite{enright2025}:
+\begin{enumerate}
+  \item \TP{} khó trong trường hợp tổng quát và có hardness tham số mạnh;
+  \item trường hợp đồ thị nền là rừng giải được trong $\bigO(|V|T^2)$;
+  \item trường hợp tham số hóa đồng thời bởi treewidth và lifetime là FPT nhờ MSO.
+\end{enumerate}
+Bài báo kết thúc bằng giả thuyết rằng thuật toán trên rừng mở rộng được sang series--parallel, gợi ý khai thác phép ghép song song. Phiên bản STACS 2023 cung cấp bản tóm lược sớm hơn của hướng nghiên cứu \cite{enright2023}.
+
+Khoảng trống có hai tầng. Ở tầng kỹ thuật, chưa có thuật toán thực thi cho series--parallel hoặc DP treewidth tường minh trong công trình gốc. Ở tầng thực nghiệm, bài báo mang tính lý thuyết và không cung cấp bộ benchmark hay mã nguồn tác giả. Vì vậy, khóa luận so sánh trực tiếp với truy hồi forest đã công bố, nhưng không dựng nên một ``implementation của tác giả'' không tồn tại. Bộ dữ liệu tổng hợp trong khóa luận được gọi là \emph{paper-faithful reproducible benchmark suite}.
+
+\section{Vị trí của đóng góp mới}
+
+\subsection{Rà soát bổ sung đến tháng 10/2026}
+
+Döring và cộng sự phát triển khung FO/MSO cho các tham số lifetime, temporal total degree, vertex-interval-membership width và tree-interval-membership width \cite{doering2026}. Đây là ngữ cảnh liên quan để đánh giá vị trí DP tường minh, nhưng không được dùng như bằng chứng rằng một thuật toán XP theo footprint treewidth là mới. Enright và cộng sự cũng nghiên cứu các họ bài toán khả giải theo hai tham số membership width \cite{enright2026}. Các tham số này khác treewidth đồ thị nền được dùng ở đây.
+
+Một hướng khác là sinh đồ thị hợp của các temporal simple paths, như công trình của Tang và cộng sự \cite{tang2025}; đầu ra đó khác việc đếm tất cả cách chọn nhãn của từng đường đi. Nhật ký tìm kiếm lưu truy vấn, nguồn chính thức và phạm vi trong \code{docs/novelty\_review.md}. Không tìm được một kết quả trùng trong tập nguồn đã đọc không chứng minh rằng không có kết quả đó trong toàn bộ tài liệu.
+
+Topological sorting, tổng tiền tố, Tarjan block decomposition và DP phân hoạch là các kỹ thuật chuẩn. Phần cần đánh giá tính mới là cách kết hợp chúng với song ánh đường đi vô hướng, trạng thái thời gian cục bộ, quotient terminal và cận đa thức series--parallel. Tối ưu ma trận, mở rộng strict và cài đặt benchmark được phân biệt với tuyên bố ưu tiên công bố quốc tế.
+
+\Cref{tab:positioning} phân biệt kết quả gốc và kết quả khóa luận.
+
+\begin{table}[htbp]
+\centering
+\caption{Vị trí của các kết quả trong khóa luận.}
+\label{tab:positioning}
+\begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{3.1cm}XX}
+\toprule
+Thiết lập & Bài báo 2025 & Khóa luận \\
+\midrule
+Rừng & $\bigO(|V|T^2)$ & $\bigO(|P|r)$; bản thưa tuyến tính theo nhãn liên quan \\
+TTSP, cực là truy vấn & Hướng mở trong giả thuyết SP & Lõi sự kiện $\bigO(n+m+M+r)$ sau định hướng/nén hạng \\
+Treewidth + lifetime & FPT bằng MSO/Courcelle & DP kết nối tường minh \\
+Treewidth riêng lẻ & Không tuyên bố FPT & XP tường minh, compact terminal \\
+Series--parallel & Giả thuyết đa thức & Cận an toàn $\bigO(N(r+1)^6)$ \\
+Cactus, truy vấn tùy ý & Không đối chiếu mã chuyên biệt & Block--cut và quét sự kiện thưa \\
+\bottomrule
+\end{tabularx}
+\end{table}

@@ -1,0 +1,30 @@
+\documentclass[tikz,border=4pt]{standalone}
+\usepackage{fontspec}
+\setmainfont{DejaVu Serif}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\begin{document}
+\begin{tikzpicture}
+\begin{axis}[width=14cm,height=8cm,grid=both,minor grid style={gray!12},
+xlabel={Cycle blocks k (r=8, internal endpoints)},ylabel={Solver time (ms)},
+legend pos=north west,legend style={font=\small},
+xmode=log,ymode=log,log basis x=2,]
+\addplot+[color=blue!75!black,mark=*,thick,error bars/.cd,y dir=both,y explicit] table[x=x,y=y,y error minus=minus,y error plus=plus] {
+x y minus plus
+4 0.0208245 0.0001947 3.19e-05
+16 0.098944 0.0017491 0.002045
+64 0.35426 0.0024115 0.005524
+256 1.52526 0.048705 0.08676
+};
+\addlegendentry{Block route/events}
+\addplot+[color=orange!85!black,mark=square*,thick,error bars/.cd,y dir=both,y explicit] table[x=x,y=y,y error minus=minus,y error plus=plus] {
+x y minus plus
+4 2.00124 0.01724 0.025375
+16 11.7689 0.02145 0.03675
+64 51.3059 1.07605 0.23175
+256 218.474 1.2375 4.3255
+};
+\addlegendentry{Compact treewidth DP}
+\end{axis}
+\end{tikzpicture}
+\end{document}

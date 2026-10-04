@@ -1,0 +1,37 @@
+\chapter{Các điểm phản biện và cách kiểm tra}
+
+\section{Đâu là phần cải tiến trực tiếp paper?}
+
+Forest là miền đối chiếu trực tiếp: dùng cùng input, rank compression và số nguyên chính xác, đánh giá lại truy hồi đã công bố. Matrix và treewidth baseline là phiên bản nội bộ, không phải mã tác giả. Paper còn có hardness, approximation và các tham số khác; khóa luận không tuyên bố thay thế các kết quả đó.
+
+\section{Tại sao không dùng temporal walks thay cho paths?}
+
+Tam giác có mọi cạnh tại thời điểm một cho phép một walk đi quanh chu trình vô hạn lần theo quy ước non-strict. Số đường đi đơn giữa hai đỉnh vẫn hữu hạn. Vì vậy mô hình phải giữ điều kiện không lặp đỉnh; DAG orientation chỉ dùng khi có song ánh cấu trúc, còn DP treewidth giữ rừng, bậc và điều kiện terminal.
+
+\section{Tại sao kiểm tra bậc chưa đủ ở join?}
+
+Hai nhánh có thể chọn các đoạn $x\to a\to y$ và $y\to b\to x$ tại cùng thời điểm. Hợp có mỗi đỉnh bậc vào/ra một nhưng tạo chu trình. Hai block con đều chứa $x,y$, nên incidence graph có hai cạnh song song giữa cùng hai block. Cycle rank bằng một phát hiện chính xác cấu hình này. Các đỉnh $s,z$ khác có thể đang zero trong cùng bag; chỉ nhìn chữ ký bậc không đủ bảo toàn bất biến rừng.
+
+\section{Có thể quên nhãn terminal vì sao?}
+
+Tại $s$ không tồn tại cạnh vào cần so với cạnh ra, tại $z$ không tồn tại cạnh ra cần so với cạnh vào. Nhãn của cạnh kề vẫn lưu ở đầu nonterminal khi cần kiểm tra. Nếu không cấm incoming $s$/outgoing $z$, placeholder terminal có thể bị dùng sai như một timestamp; do đó code chỉ compact khi pruning được bật. Label của cạnh trực tiếp $s\to z$ tạo nhiều realization khác nhau và được cộng trong count, dù state của chúng giống nhau.
+
+\section{Một thời điểm có đúng hai kết quả khác nhau không?}
+
+Đường $s-u-z$ với cả hai cạnh tại thời điểm một có count non-strict bằng một và strict bằng không. Quét sự kiện incoming trước outgoing đếm được nghiệm bằng thời điểm; đảo nhóm loại nó. Chỉ đổi một dấu trong oracle mà không đổi tie ordering của solver sẽ tạo lỗi có thể phát hiện bởi test này.
+
+\section{Tại sao width hai chưa phải FPT theo width?}
+
+Đặt $w=2$ thì exponent theo $r$ là sáu, một hằng số. Khi $w$ là tham số thay đổi, exponent $2w+2$ cũng thay đổi; không có cận $f(w)L^c$ với $c$ độc lập khỏi $w$ từ công thức này. Vì thế phân loại là XP. Số nguyên có nhiều bit được xử lý với cận bit riêng và không phá tính đa thức với width cố định.
+
+\section{Zero mismatch cho phép khẳng định điều gì?}
+
+Nó xác nhận các cài đặt và oracle đồng ý trên đúng tập đã ghi nhận. Nó không cho xác suất đúng toàn cục 100\%, không xác nhận ưu tiên quốc tế và không biến một bộ randomized tests thành exhaustive campaign. Ngược lại, chứng minh đúng cần đủ bất biến, case analysis và tính duy nhất của lựa chọn cạnh; bản thảo cung cấp các lập luận đó để người khác phản biện.
+
+\section{Tại sao số RSS trước và sau sửa khác nhau?}
+
+Fork trước exec có thể đưa dấu đỉnh bộ nhớ của Python vào \code{ru\_maxrss}; một chương trình C++ nhỏ vì vậy bị báo bộ nhớ lớn dù đã thay address space. \code{VmHWM} trong \code{/proc/self/status} thuộc address space hiện tại. Dữ liệu cũ được lưu riêng, toàn bộ số liệu cuối được đo lại; thuật toán đếm không thay đổi. Đây cũng là lý do phải tách peak RSS khỏi số trạng thái đang sống.
+
+\section{Người thực hiện cần tự bảo vệ được gì?}
+
+Trước khi nộp, tác giả cần tự diễn giải định nghĩa nghiệm, tự làm một transition introduce/forget/join, giải thích phản ví dụ Wheatstone, tính một oracle nhỏ và tái lập một cell từ mã nguồn. Các công cụ hỗ trợ lập trình, rà soát và soạn thảo không thay thế việc tác giả hiểu và chịu trách nhiệm về chứng minh, số liệu và cách ghi nhận hỗ trợ theo quy định của cơ sở đào tạo.

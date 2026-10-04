@@ -1,0 +1,30 @@
+\documentclass[tikz,border=4pt]{standalone}
+\usepackage{fontspec}
+\setmainfont{DejaVu Serif}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\begin{document}
+\begin{tikzpicture}
+\begin{axis}[width=14cm,height=8cm,grid=both,minor grid style={gray!12},
+xlabel={Vertices n (width 2, r=4)},ylabel={Solver time (ms)},
+legend pos=north west,legend style={font=\small},
+xmode=log,ymode=log,log basis x=2,]
+\addplot+[color=blue!75!black,mark=*,thick,error bars/.cd,y dir=both,y explicit] table[x=x,y=y,y error minus=minus,y error plus=plus] {
+x y minus plus
+12 2.60119 0.018745 0.022445
+24 10.7025 0.34915 0.4171
+48 24.823 0.30065 0.9119
+96 22.3021 0.0476 0.46665
+};
+\addlegendentry{Original DP}
+\addplot+[color=orange!85!black,mark=square*,thick,error bars/.cd,y dir=both,y explicit] table[x=x,y=y,y error minus=minus,y error plus=plus] {
+x y minus plus
+12 0.781947 0.017171 0.0263485
+24 1.95453 0.00524 0.083655
+48 3.78439 0.074115 0.11947
+96 5.03719 0.02373 0.04967
+};
+\addlegendentry{Compact DP}
+\end{axis}
+\end{tikzpicture}
+\end{document}

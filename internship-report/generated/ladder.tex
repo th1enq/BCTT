@@ -1,0 +1,17 @@
+\begin{table}[htbp]{Ladder có độ rộng hai, $r=4$, đầu cuối trên-trái và dưới-phải.}
+\label{tab:ladder}
+\centering\small
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.16}
+\begin{tabular}{lrrrr}
+\toprule
+Số cột $c$ & Đường đi tĩnh & Liệt kê (ms) & DP cũ (ms) & DP mới (ms) \\
+\midrule
+8 & $2^{7}$ & \num{0.25} & \num{3.73} & \num{0.876} \\
+16 & $2^{15}$ & \num{138} & \num{9.07} & \num{2.04} \\
+24 & $2^{23}$ & Hết giờ & \num{14.2} & \num{3.16} \\
+64 & $2^{63}$ & Hết giờ & \num{40.6} & \num{9.38} \\
+\bottomrule
+\end{tabular}
+\par\vspace{3pt}\begin{minipage}{0.97\linewidth}\footnotesize Mỗi số đo là trung vị của bảy mẫu. Hết giờ nghĩa là tiến trình không hoàn thành trong 3 giây; không thay bằng một thời gian giả để tính tỷ số tăng tốc.\end{minipage}
+\end{table}

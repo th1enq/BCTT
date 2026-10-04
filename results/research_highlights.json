@@ -1,0 +1,51 @@
+{
+  "audit_comparisons": 741280,
+  "query_mode_evaluations": 259856,
+  "benchmark_cases": 190,
+  "raw_rows": 3308,
+  "paired_speedups": {
+    "forest_dense": {
+      "paired_cells": 47,
+      "geometric_mean_speedup": 16.12267733317256,
+      "min_speedup": 1.92199072353032,
+      "max_speedup": 185.09808952768356
+    },
+    "ttsp_dense": {
+      "paired_cells": 45,
+      "geometric_mean_speedup": 5.238065221378897,
+      "min_speedup": 1.0769086286584426,
+      "max_speedup": 52.03366604794365
+    },
+    "partial2": {
+      "paired_cells": 24,
+      "geometric_mean_speedup": 3.8048623272144484,
+      "min_speedup": 1.3200001546324,
+      "max_speedup": 17.585432473444612
+    },
+    "cactus": {
+      "paired_cells": 8,
+      "geometric_mean_speedup": 78.8893604131827,
+      "min_speedup": 42.95182365262493,
+      "max_speedup": 144.82555185457008
+    }
+  },
+  "ablation_relative_to_full": {
+    "tw-dp-baseline": 5.934238973394182,
+    "tw-dp": 1.0,
+    "tw-dp/no-compact": 2.1621701249223637,
+    "tw-dp/no-prune": 4.563876387116502,
+    "tw-dp/no-index": 1.1899840397728367,
+    "tw-dp/no-release": 1.0502694605281049
+  },
+  "censored_cells": 18,
+  "source_sha256": "ae3ea3e18ef07fc52f4b4e7040f24e05470d89b2d93219554528b24bec819694",
+  "raw_csv_sha256": {
+    "research_benchmark.csv": "f9311ea76a6b4782ff1409b9b441ae6163b5ad8a191150769a49f661ce64da07",
+    "research_ladder.csv": "ba4d8f0ccd31d37778f6742da75a15201badc3a3fab67f91901a8c503c76e5a7"
+  },
+  "statuses": {
+    "ok": 3290,
+    "timeout": 15,
+    "skipped_budget": 3
+  }
+}

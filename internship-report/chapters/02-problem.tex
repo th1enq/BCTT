@@ -1,0 +1,43 @@
+\chapter{Yêu cầu và phạm vi bài toán}
+
+\section{Mô hình đường đi thời gian}
+
+Đầu vào là đồ thị thời gian vô hướng $\mathcal{G}=(V,\mathcal{E})$ và hai đỉnh phân biệt $s,z\in V$. Mỗi cạnh thời gian là một cặp $(\{u,v\},t)$, trong đó $t$ là thời điểm cạnh $uv$ hoạt động. Đồ thị nền $G=(V,E)$ chứa cạnh $uv$ khi có ít nhất một thời điểm hoạt động. Với mỗi $e\in E$, ký hiệu $L(e)$ là tập các nhãn của cạnh đó; một cạnh và một thời điểm chỉ biểu diễn một lựa chọn, không tính trùng bản ghi.
+
+Một nghiệm gồm dãy đỉnh đôi một khác nhau $s=v_0,v_1,\ldots,v_\ell=z$ và dãy nhãn $t_1,\ldots,t_\ell$ sao cho
+\[
+  (\{v_{i-1},v_i\},t_i)\in\mathcal{E},\qquad 1\le i\le\ell.
+\]
+Trong ngữ nghĩa \emph{không nghiêm ngặt}, các nhãn thỏa $t_1\le\cdots\le t_\ell$. Trong ngữ nghĩa \emph{nghiêm ngặt}, thay các dấu $\le$ bằng $<$. Hai nghiệm khác nhau nếu khác dãy đỉnh hoặc khác ít nhất một nhãn được chọn. Đầu ra là tổng số nghiệm chính xác, không lấy theo mô-đun và không xấp xỉ.
+
+Điều kiện không lặp đỉnh là yêu cầu thiết yếu. Nếu bỏ điều kiện này, thuật toán có thể đếm hành trình quay lui hoặc đi quanh chu trình, khác với đối tượng đang nghiên cứu. Ví dụ, $s-u-v-u-z$ không phải đường đi đơn dù các nhãn thỏa thứ tự thời gian. Mọi thuật toán trong báo cáo phải bảo toàn cả tính đơn lẫn điều kiện nhãn.
+
+Giá trị tuyệt đối và khoảng cách giữa các nhãn không ảnh hưởng đến hai ngữ nghĩa trên. Có thể thay các thời điểm phân biệt bằng các hạng $1,\ldots,r$ theo thứ tự tăng mà không thay đổi đáp án. Nén hạng không được áp dụng như vậy nếu bài toán bổ sung ràng buộc về thời gian chờ; ràng buộc đó nằm ngoài phạm vi báo cáo.
+
+\begin{table}[htbp]{Các tham số dùng trong phân tích.}
+\label{tab:parameters}
+\centering\small\renewcommand{\arraystretch}{1.1}
+\begin{tabularx}{\linewidth}{lX}
+\toprule
+Ký hiệu & Ý nghĩa \\
+\midrule
+$n,m$ & Số đỉnh và số cạnh của đồ thị nền. \\
+$M$ & Tổng số cạnh thời gian, $M=|\mathcal{E}|$. \\
+$r$ & Số nhãn thời gian phân biệt sau nén hạng. \\
+$P,M_P$ & Số cạnh tĩnh và cạnh thời gian trên tuyến đang xét. \\
+$w$ & Độ rộng của phân rã cây được cung cấp. \\
+$N$ & Số nút của phân rã cây chuẩn hóa; không đồng nhất với $M$. \\
+$B$ & Độ dài bit lớn nhất của mọi số đếm trung gian. \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\section{Miền áp dụng và tiêu chí đánh giá}
+
+Đề tài xét đồ thị nền là rừng, TTSP, cactus và đồ thị có phân rã cây độ rộng nhỏ. TTSP là đồ thị hai cực tạo từ một cạnh bằng ghép nối tiếp và ghép song song~\cite{eppstein1992}; thuật toán chuyên biệt yêu cầu truy vấn trùng hai cực gốc. Cactus có các khối hai-liên-thông là cạnh hoặc chu trình và cho phép truy vấn giữa hai đỉnh tùy ý. Phương pháp phân rã cây không yêu cầu hai đầu cuối là hai cực của một biểu thức TTSP.
+
+Trong báo cáo, kết quả tổng quát cho series--parallel được phát biểu trên partial 2-tree, tức đồ thị có treewidth không quá hai. Phân biệt này tránh đánh đồng lớp đồ thị với một lựa chọn hai cực cụ thể. Một đồ thị có thể thuộc lớp độ rộng hai nhưng không có định hướng cố định bảo toàn mọi đường đi giữa cặp đầu cuối đang truy vấn.
+
+Tiêu chí lý thuyết gồm tính đúng, không đếm trùng, cận thời gian và chi phí số nguyên lớn. Tiêu chí thực nghiệm gồm kết quả khớp bộ đếm độc lập, trung vị thời gian qua các lần đo, bộ nhớ cực đại và khả năng vượt qua các trường hợp làm thuật toán liệt kê tăng theo hàm mũ. Một phiên bản nhanh hơn nhưng đếm sai, hoặc chỉ giải miền hẹp hơn mà không nêu điều kiện, không được coi là cải thiện tương đương.
+
+Kết quả đánh giá chỉ áp dụng cho các lớp và dữ liệu đã khảo sát. Đề tài chưa triển khai ứng dụng betweenness hoàn chỉnh, chưa thực nghiệm trên mạng thực tế và chưa giải trường hợp treewidth tăng tùy ý bằng một thuật toán FPT chỉ theo $w$. Các hạn chế này là ranh giới của kết luận, không được che khuất bằng số liệu tăng tốc trên các trường hợp thuận lợi.

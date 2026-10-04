@@ -1,0 +1,64 @@
+% LuaLaTeX; the supplied uetgraduation.cls is not modified.
+\PassOptionsToPackage{no-math}{fontspec}
+\RequirePackage{fix-cm}
+\input{font-compat.tex}
+\documentclass{uetgraduation}
+\usepackage{booktabs,tabularx,amsthm,exscale}
+\DeclareFontShape{OMX}{cmex}{m}{n}{<-> cmex10}{}
+% mathfont remaps Latin characters to virtual glyphs. Its local alphabets
+% must use the same virtual-font mechanism, not legacy Computer Modern.
+\IfFontExistsTF{Times New Roman}{%
+  \mathfont[operator]{Times New Roman}%
+  \setmathfontcommands{Times New Roman}%
+}{%
+  \mathfont[operator]{Liberation Serif}%
+  \setmathfontcommands{Liberation Serif}%
+}
+\newmathfontcommand{\mathsf}{Liberation Sans}{m}{n}
+\usepackage[unicode,hidelinks]{hyperref}
+\usepackage{xurl}
+\urlstyle{same}
+% The UET class uses a custom bibliography rather than a standard report class.
+\makeatletter
+\NewCommandCopy\ReportOriginalBibitem\bibitem
+\RenewDocumentCommand\bibitem{m}{%
+  \ReportOriginalBibitem{#1}%
+  \Hy@raisedlink{\hyper@anchorstart{cite.#1}\hyper@anchorend}%
+}
+\makeatother
+\hypersetup{pdftitle={Báo cáo thực tập: Đếm đường đi thời gian trên đồ thị có cấu trúc},
+  pdfauthor={Quách Đức Thiện},pdfsubject={Ý tưởng, thuật toán và kết quả nghiên cứu},
+  pdfdisplaydoctitle=true}
+\sisetup{output-decimal-marker={,},group-separator={\,},group-minimum-digits=5}
+\setcounter{tocdepth}{2}
+\newcommand{\bigO}{\mathcal{O}}
+\newcommand{\TP}{\#\textsc{Temporal Path}}
+\newcommand{\Bell}{\mathsf{Bell}}
+\newcommand{\StateZero}{\mathsf{Zero}}
+\newcommand{\StateIn}{\mathsf{In}}
+\newcommand{\StateOut}{\mathsf{Out}}
+\newcommand{\StateBoth}{\mathsf{Both}}
+\newtheorem{proposition}{Mệnh đề}[chapter]
+\renewcommand{\proofname}{Lập luận}
+\input{generated/numbers.tex}
+\input{metadata.tex}
+
+\begin{document}
+\input{frontmatter.tex}
+\begin{contentlisting}
+  \tableofcontents
+\end{contentlisting}
+\input{acknowledgments.tex}
+\input{abstract.tex}
+\input{chapters/01-introduction.tex}
+\input{chapters/02-problem.tex}
+\input{chapters/03-algorithms.tex}
+\input{chapters/04-results.tex}
+\input{chapters/05-conclusion.tex}
+\clearpage
+\phantomsection
+\addcontentsline{toc}{chapter}{Tài liệu tham khảo}
+\input{references.tex}
+\clearpage
+\input{evaluation.tex}
+\end{document}

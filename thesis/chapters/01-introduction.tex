@@ -1,0 +1,63 @@
+\chapter{Giới thiệu}
+\label{chap:introduction}
+
+\section{Bối cảnh và động lực}
+
+Nhiều mạng thực tế không bất biến theo thời gian. Liên kết giữa hai người chỉ tồn tại khi họ gặp nhau; một chuyến xe chỉ nối hai địa điểm tại một thời điểm cụ thể; một liên kết truyền thông chỉ khả dụng trong một khoảng thời gian. Mô hình đồ thị tĩnh làm mất thứ tự của các tương tác và có thể kết luận sai rằng một hành trình tồn tại dù các cạnh của hành trình xuất hiện theo thứ tự không khả thi. Đồ thị thời gian khắc phục vấn đề này bằng cách gắn thời điểm hoạt động cho mỗi cạnh.
+
+Một đường đi thời gian không chỉ phải là đường đi trong đồ thị nền mà còn phải tôn trọng thứ tự thời gian. Việc tìm một đường đi như vậy thường dễ hơn đáng kể so với việc đếm tất cả đường đi. Số lượng đường đi liên quan trực tiếp tới độ dư thừa của kết nối, phân tích độ tin cậy và các đại lượng trung tâm dựa trên đường đi. Công trình \emph{Counting Temporal Paths} của Enright, Meeks và Molter khởi đầu nghiên cứu có hệ thống về độ phức tạp tham số và xấp xỉ của bài toán này \cite{enright2025}.
+
+Bài báo chứng minh bài toán khó ngay cả dưới những hạn chế cấu trúc mạnh, nhưng cũng chỉ ra một số miền khả giải. Đặc biệt, khi đồ thị nền là rừng, đường đi tĩnh giữa hai đỉnh là duy nhất và một truy hồi theo thời gian cho thuật toán $\bigO(|V|T^2)$. Khi tham số hóa đồng thời bởi treewidth và lifetime, bài toán là FPT nhờ một biểu diễn MSO và định lý Courcelle. Trong phần kết luận, các tác giả dự đoán rằng thuật toán đa thức trên rừng có thể mở rộng sang đồ thị series--parallel \cite{enright2025}.
+
+Câu hỏi này hấp dẫn vì series--parallel là lớp đầu tiên vượt ra ngoài rừng nhưng vẫn có cấu trúc phân rã chặt. Ghép song song tạo ra nhiều tuyến tĩnh, thậm chí số tuyến tăng theo hàm mũ trong kích thước biểu diễn. Vì vậy, liệt kê đường đi không còn là một chiến lược đa thức. Đồng thời, treewidth của lớp này không quá $2$, gợi ý rằng một trạng thái cục bộ đủ giàu có thể nén được toàn bộ lịch sử đường đi.
+
+\section{Phát biểu vấn đề}
+
+Cho đồ thị thời gian vô hướng $\cG=(V,\cE,T)$ và hai đỉnh phân biệt $s,z\in V$. Mỗi phần tử của $\cE$ có dạng $(\{u,v\},t)$ với $t\in[T]$. Một đường đi thời gian không nghiêm ngặt là một đường đi tĩnh đơn
+\[
+  P=(v_0=s,v_1,\ldots,v_\ell=z)
+\]
+cùng lựa chọn thời điểm $t_i\in L(\{v_{i-1},v_i\})$ sao cho
+\[
+  t_1\le t_2\le\cdots\le t_\ell.
+\]
+Bài toán \TP{} yêu cầu đếm chính xác tất cả các đối tượng như vậy. Hai lựa chọn nhãn thời gian khác nhau trên cùng đường đi tĩnh được tính là hai đường đi thời gian khác nhau.
+
+Khóa luận tập trung vào bốn câu hỏi nghiên cứu:
+
+\begin{description}[leftmargin=2.2cm,style=nextline]
+  \item[RQ1.] Có thể đánh giá truy hồi trên rừng nhanh hơn cận $\bigO(|V|T^2)$ đã công bố hay không?
+  \item[RQ2.] Có thể đếm TTSP cực--cực theo số nhãn thực sự mà không dựng toàn bộ ma trận truyền hay liệt kê số tuyến hàm mũ hay không?
+  \item[RQ3.] Có thể đưa ra thuật toán tường minh tham số hóa chỉ bởi treewidth của đồ thị nền, thay cho meta-algorithm phụ thuộc đồng thời vào lifetime hay không?
+  \item[RQ4.] Cài đặt thực tế có đồng ý với các oracle khép kín và phương pháp brute force độc lập hay không, và xu hướng thời gian chạy có phù hợp với phân tích hay không?
+\end{description}
+
+\section{Đóng góp}
+
+Khóa luận đưa ra các đóng góp sau.
+
+\begin{enumerate}[label=\textbf{C\arabic*.}]
+  \item Chứng minh nén hạng thời gian bảo toàn song ánh tập đường đi thời gian. Trên rừng, sử dụng tổng tiền tố để giảm thời gian xuống $\bigO(|P|r)$ và sử dụng hai con trỏ trên danh sách thưa để đạt
+  \[
+    \bigO\!\left(|P|+\sum_{e\in P}|L(e)|\right).
+  \]
+  \item Xây dựng ma trận truyền TTSP làm baseline $\bigO(mr^3)$, sau đó chứng minh song ánh với đường đi trong DAG định hướng chuẩn và đưa ra lõi quét sự kiện $\bigO(n+m+M+r)$, gồm đúng $M$ phép cộng số đếm sau nén hạng và định hướng. Với $M=|\cE|$, bộ nhớ không cần ma trận $r\times r$ ở mọi nút.
+  \item Mở rộng quét sự kiện sang cactus với đầu cuối tùy ý bằng route block--cut; các block ngoài route bị loại đúng theo tính đơn của đường đi.
+  \item Xây dựng quy hoạch động kết nối trên nice tree decomposition. Trạng thái ghi bậc có hướng kèm thời điểm cục bộ và phân hoạch liên thông. Một kiểm tra đồ thị incidence hai phía tại nút join ngăn chu trình, kể cả chu trình độ dài hai do cạnh song song trong incidence multigraph.
+  \item Chứng minh thuật toán treewidth chạy trong
+  \[
+    N(r+1)^{2w+2}2^{\bigO(w\log w)}
+  \]
+  phép toán số học sau xóa nhãn terminal; cận trạng thái giảm từ bậc $w+3$ xuống $w+1$ theo $r$. Với $w=2$, cận an toàn là $\bigO(N(r+1)^6)$, vẫn là XP chứ không phải FPT chỉ theo treewidth.
+  \item Chứng minh và cài đặt cả biến thể non-strict/strict trên các lớp đang xét. Cung cấp C++20 số nguyên độ dài tùy ý, oracle Python liệt kê cạnh thời gian, kiểm thử vét cạn và Graph Atlas. Chiến dịch mới có \AuditComparisons{} đối chiếu không sai lệch; benchmark có \BenchCases{} cấu hình, bảy lần đo và hình/bảng sinh tự động từ CSV.
+\end{enumerate}
+
+\section{Phạm vi và mức độ khẳng định}
+
+Khóa luận xét đồ thị thời gian vô hướng, đường đi đơn, và cả hai điều kiện $\le$/$<$. Không xét temporal walks, thời gian chờ bị chặn hoặc độ trễ di chuyển dương. Thuật toán tổng quát nhận một phân rã cây hợp lệ; riêng width không quá $2$ có bộ nhận dạng và sinh phân rã bằng elimination. Chi phí đọc/nén input, xác nhận cấu trúc và số học nhiều bit được tách rõ khỏi cận lõi đếm.
+
+Kết quả series--parallel là đóng góp nghiên cứu của khóa luận, không phải kết quả từ bài báo 2025. Bằng chứng thực nghiệm không thay thế chứng minh, và chứng minh nội bộ không thay thế bình duyệt. Do đó, cách diễn đạt an toàn là: khóa luận \emph{đề xuất và cài đặt} một lời giải đa thức cho trường hợp series--parallel, giải giả thuyết đã nêu \emph{với điều kiện} kết quả vượt qua thẩm định độc lập và kiểm tra tính mới.
+
+\section{Cấu trúc khóa luận}
+
+\Cref{chap:background} trình bày nền tảng và công trình liên quan. \Cref{chap:forests} phát triển hai cải tiến trên rừng. \Cref{chap:ttsp} đưa ra đại số truyền TTSP. \Cref{chap:treewidth} trình bày thuật toán treewidth, chứng minh đúng và hệ quả series--parallel. \Cref{chap:implementation} mô tả cài đặt và khả năng tái lập. \Cref{chap:experiments} trình bày thực nghiệm và đe dọa tới tính hợp lệ. Cuối cùng, \Cref{chap:conclusion} tổng kết câu trả lời cho các câu hỏi nghiên cứu và hướng phát triển.

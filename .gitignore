@@ -1,0 +1,13 @@
+/build/
+/benchmarks/generated/
+__pycache__/
+*.pyc
+/thesis/*.aux
+/thesis/*.log
+/thesis/*.lof
+/thesis/*.lot
+/thesis/*.out
+/thesis/*.toc
+/thesis/*.pdf
+/results/figures/*.aux
+/results/figures/*.log

@@ -1,0 +1,17 @@
+\begin{table}[htbp]{Phạm vi kiểm chứng tính đúng của các thuật toán.}
+\label{tab:audit}
+\centering\small
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.16}
+\begin{tabular}{p{5.2cm}rrr}
+\toprule
+Chiến dịch & \shortstack{Lượt truy vấn/\\ngữ nghĩa} & Đối chiếu & Sai lệch \\
+\midrule
+Vét cạn nhỏ & 140\,048 & 491\,664 & 0 \\
+Ngẫu nhiên và biến đổi & 8\,400 & 26\,800 & 0 \\
+Graph Atlas, $w\le2$ & 111\,408 & 222\,816 & 0 \\
+\textbf{Tổng lượt} & 259\,856 & 741\,280 & 0 \\
+\bottomrule
+\end{tabular}
+\par\vspace{3pt}\begin{minipage}{0.97\linewidth}\footnotesize Một lượt truy vấn/ngữ nghĩa có thể tạo nhiều đối chiếu giữa các thuật toán. Các tổng trên không phải số đồ thị khác nhau.\end{minipage}
+\end{table}
